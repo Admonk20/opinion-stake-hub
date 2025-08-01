@@ -507,28 +507,28 @@ const Index = () => {
             <div className="space-y-4">
               <h3 className="font-semibold">Platform</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <p>How It Works</p>
-                <p>Battle Tokens</p>
-                <p>Payouts</p>
-                <p>Fees</p>
+                <a href="#how-it-works" className="block hover:text-foreground transition-colors">How It Works</a>
+                <a href="#battle-tokens" className="block hover:text-foreground transition-colors">Battle Tokens</a>
+                <a href="#payouts" className="block hover:text-foreground transition-colors">Payouts</a>
+                <a href="#fees" className="block hover:text-foreground transition-colors">Fees</a>
               </div>
             </div>
             <div className="space-y-4">
               <h3 className="font-semibold">Community</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <p>Discord</p>
-                <p>Telegram</p>
-                <p>Twitter</p>
-                <p>Leaderboard</p>
+                <a href="https://discord.gg/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Discord</a>
+                <a href="https://t.me/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Telegram</a>
+                <a href="https://twitter.com/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Twitter</a>
+                <a href="/leaderboard" className="block hover:text-foreground transition-colors">Leaderboard</a>
               </div>
             </div>
             <div className="space-y-4">
               <h3 className="font-semibold">Support</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
-                <p>Help Center</p>
-                <p>Contact Us</p>
-                <p>Terms of Service</p>
-                <p>Privacy Policy</p>
+                <a href="/help" className="block hover:text-foreground transition-colors">Help Center</a>
+                <a href="mailto:support@memecoinbattles.com" className="block hover:text-foreground transition-colors">Contact Us</a>
+                <a href="/terms" className="block hover:text-foreground transition-colors">Terms of Service</a>
+                <a href="/privacy" className="block hover:text-foreground transition-colors">Privacy Policy</a>
               </div>
             </div>
           </div>
