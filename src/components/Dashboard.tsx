@@ -233,6 +233,13 @@ export const Dashboard = ({ walletAddress, userId }: DashboardProps) => {
               max={balance?.available_balance || 0}
             />
             <Button
+              variant="outline"
+              onClick={() => setWithdrawAmount(balance?.available_balance.toString() || '0')}
+              disabled={!balance || balance.available_balance <= 0}
+            >
+              Max
+            </Button>
+            <Button
               onClick={handleWithdraw}
               disabled={isWithdrawing || !withdrawAmount || parseFloat(withdrawAmount) <= 0}
             >
