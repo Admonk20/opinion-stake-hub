@@ -505,15 +505,6 @@ const Index = () => {
               </p>
             </div>
             <div className="space-y-4">
-              <h3 className="font-semibold">Platform</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <a href="#how-it-works" className="block hover:text-foreground transition-colors">How It Works</a>
-                <a href="#battle-tokens" className="block hover:text-foreground transition-colors">Battle Tokens</a>
-                <a href="#payouts" className="block hover:text-foreground transition-colors">Payouts</a>
-                <a href="#fees" className="block hover:text-foreground transition-colors">Fees</a>
-              </div>
-            </div>
-            <div className="space-y-4">
               <h3 className="font-semibold">Community</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
                 <a href="https://discord.gg/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Discord</a>
