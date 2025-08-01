@@ -67,9 +67,19 @@ const Auth = () => {
       }
     } catch (error: any) {
       console.error('Sign in error:', error);
+      
+      let errorMessage = "An error occurred during sign in.";
+      if (error.message?.includes("Invalid login credentials")) {
+        errorMessage = "Email not registered or incorrect password. Please sign up first or check your credentials.";
+      } else if (error.message?.includes("Email not confirmed")) {
+        errorMessage = "Please check your email and click the confirmation link before signing in.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
       toast({
         title: "Sign in failed",
-        description: error.message || "Invalid credentials or account not verified.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
