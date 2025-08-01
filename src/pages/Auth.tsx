@@ -6,7 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
-import { BarChart3 } from 'lucide-react';
+import { Crown } from 'lucide-react';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
@@ -83,7 +83,7 @@ const Auth = () => {
         {/* Header */}
         <div className="text-center space-y-4">
           <div className="flex items-center justify-center gap-2">
-            <BarChart3 className="h-8 w-8 text-primary" />
+            <Crown className="h-8 w-8 text-primary" />
             <h1 className="text-2xl font-bold bg-gradient-gold bg-clip-text text-transparent">
               Memecoin Battles
             </h1>
