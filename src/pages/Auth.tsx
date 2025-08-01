@@ -33,6 +33,8 @@ const Auth = () => {
           title: "Account created successfully!",
           description: "Please check your email to verify your account.",
         });
+        // Redirect to main page to show trivias
+        window.location.href = '/';
       }
     } catch (error: any) {
       console.error('Sign up error:', error);
