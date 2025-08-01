@@ -134,6 +134,148 @@ export type Database = {
         }
         Relationships: []
       }
+      payouts: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          trivia_id: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          trivia_id: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          trivia_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "payouts_trivia_id_fkey"
+            columns: ["trivia_id"]
+            isOneToOne: false
+            referencedRelation: "trivias"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      trivias: {
+        Row: {
+          correct_answer: string
+          created_at: string
+          description: string
+          ends_at: string
+          entry_price: number
+          id: string
+          oppose_count: number
+          oppose_pool: number
+          resolved_at: string | null
+          status: string
+          support_count: number
+          support_pool: number
+          title: string
+        }
+        Insert: {
+          correct_answer: string
+          created_at?: string
+          description: string
+          ends_at: string
+          entry_price?: number
+          id?: string
+          oppose_count?: number
+          oppose_pool?: number
+          resolved_at?: string | null
+          status?: string
+          support_count?: number
+          support_pool?: number
+          title: string
+        }
+        Update: {
+          correct_answer?: string
+          created_at?: string
+          description?: string
+          ends_at?: string
+          entry_price?: number
+          id?: string
+          oppose_count?: number
+          oppose_pool?: number
+          resolved_at?: string | null
+          status?: string
+          support_count?: number
+          support_pool?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      user_answers: {
+        Row: {
+          amount_paid: number
+          answer: string
+          created_at: string
+          id: string
+          trivia_id: string
+          user_id: string
+        }
+        Insert: {
+          amount_paid: number
+          answer: string
+          created_at?: string
+          id?: string
+          trivia_id: string
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number
+          answer?: string
+          created_at?: string
+          id?: string
+          trivia_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_answers_trivia_id_fkey"
+            columns: ["trivia_id"]
+            isOneToOne: false
+            referencedRelation: "trivias"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_balances: {
+        Row: {
+          available_balance: number
+          id: string
+          total_winnings: number
+          total_withdrawn: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          available_balance?: number
+          id?: string
+          total_winnings?: number
+          total_withdrawn?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          available_balance?: number
+          id?: string
+          total_winnings?: number
+          total_withdrawn?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_progress: {
         Row: {
           detection_progress: number
@@ -161,6 +303,39 @@ export type Database = {
           success_pattern_rewiring?: number
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      withdrawals: {
+        Row: {
+          amount: number
+          completed_at: string | null
+          created_at: string
+          id: string
+          status: string
+          transaction_hash: string | null
+          user_id: string
+          wallet_address: string
+        }
+        Insert: {
+          amount: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          transaction_hash?: string | null
+          user_id: string
+          wallet_address: string
+        }
+        Update: {
+          amount?: number
+          completed_at?: string | null
+          created_at?: string
+          id?: string
+          status?: string
+          transaction_hash?: string | null
+          user_id?: string
+          wallet_address?: string
         }
         Relationships: []
       }
