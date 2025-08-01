@@ -258,7 +258,7 @@ const Index = () => {
           </div>
           
           <div className="flex flex-wrap justify-center gap-4">
-            <Button variant="gold" size="lg">
+            <Button variant="gold" size="lg" onClick={() => window.location.href = '/auth'}>
               <Gamepad2 className="h-5 w-5" />
               Start Battling
             </Button>
