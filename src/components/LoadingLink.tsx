@@ -1,27 +1,45 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useLoading } from '@/contexts/LoadingContext';
 import { cn } from '@/lib/utils';
+import { Loader2 } from 'lucide-react';
 
 interface LoadingLinkProps {
   to: string;
   children: React.ReactNode;
   className?: string;
   external?: boolean;
+  loadingDuration?: number;
 }
 
-const LoadingLink: React.FC<LoadingLinkProps> = ({ to, children, className, external = false }) => {
+const LoadingLink: React.FC<LoadingLinkProps> = ({ 
+  to, 
+  children, 
+  className, 
+  external = false,
+  loadingDuration = 1200
+}) => {
   const { startLoading, stopLoading } = useLoading();
+  const [isClicked, setIsClicked] = useState(false);
 
   const handleClick = () => {
-    if (!external) {
+    if (!external && !isClicked) {
+      setIsClicked(true);
       startLoading();
-      // Stop loading after a short delay to simulate page transition
+      
+      // Add a slight delay to show the button click animation
       setTimeout(() => {
-        stopLoading();
-      }, 800);
+        // Stop loading after the specified duration
+        setTimeout(() => {
+          stopLoading();
+          setIsClicked(false);
+        }, loadingDuration);
+      }, 100);
     }
   };
+
+  const baseClasses = "relative transition-all duration-300 hover-scale story-link";
+  const clickedClasses = isClicked ? "scale-95 opacity-80" : "";
 
   if (external) {
     return (
@@ -29,7 +47,7 @@ const LoadingLink: React.FC<LoadingLinkProps> = ({ to, children, className, exte
         href={to}
         target="_blank"
         rel="noopener noreferrer"
-        className={cn("transition-all duration-200 hover-scale", className)}
+        className={cn(baseClasses, className)}
         onClick={handleClick}
       >
         {children}
@@ -40,10 +58,15 @@ const LoadingLink: React.FC<LoadingLinkProps> = ({ to, children, className, exte
   return (
     <Link
       to={to}
-      className={cn("transition-all duration-200 hover-scale", className)}
+      className={cn(baseClasses, clickedClasses, className)}
       onClick={handleClick}
     >
-      {children}
+      <span className="flex items-center gap-2">
+        {isClicked && (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        )}
+        {children}
+      </span>
     </Link>
   );
 };
