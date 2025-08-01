@@ -524,7 +524,7 @@ const Index = () => {
             </div>
           </div>
           <div className="border-t border-border pt-8 text-center text-muted-foreground text-sm">
-            <p>&copy; 2024 Memecoin Battles. Battle responsibly. May the best predictions win!</p>
+            <p>&copy; 2025 Memecoin Battles. Battle responsibly. May the best predictions win!</p>
           </div>
         </div>
       </footer>
