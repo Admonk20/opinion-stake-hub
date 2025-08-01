@@ -2,54 +2,59 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Opinion Stake Hub Design System - Modern prediction market theme */
+/* Memecoin Battles Design System - Gold theme for battle tokens */
 
 @layer base {
   :root {
-    --background: 240 10% 4%;
-    --foreground: 240 5% 96%;
+    --background: 25 5% 8%;
+    --foreground: 45 8% 95%;
 
-    --card: 240 8% 8%;
-    --card-foreground: 240 5% 96%;
+    --card: 30 8% 12%;
+    --card-foreground: 45 8% 95%;
 
-    --popover: 240 8% 8%;
-    --popover-foreground: 240 5% 96%;
+    --popover: 30 8% 12%;
+    --popover-foreground: 45 8% 95%;
 
-    --primary: 250 100% 68%;
-    --primary-foreground: 240 10% 4%;
+    --primary: 45 100% 65%;
+    --primary-foreground: 25 5% 8%;
 
-    --secondary: 240 4% 16%;
-    --secondary-foreground: 240 5% 96%;
+    --secondary: 35 12% 18%;
+    --secondary-foreground: 45 8% 95%;
 
-    --muted: 240 4% 16%;
-    --muted-foreground: 240 5% 64%;
+    --muted: 35 12% 18%;
+    --muted-foreground: 45 5% 68%;
 
-    --accent: 262 83% 58%;
-    --accent-foreground: 240 5% 96%;
+    --accent: 40 95% 60%;
+    --accent-foreground: 25 5% 8%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 240 5% 96%;
+    --destructive-foreground: 45 8% 95%;
 
-    --border: 240 6% 20%;
-    --input: 240 6% 20%;
-    --ring: 250 100% 68%;
+    --border: 35 8% 22%;
+    --input: 35 8% 22%;
+    --ring: 45 100% 65%;
 
-    /* Custom prediction market colors */
-    --support: 142 76% 36%;
-    --support-foreground: 240 5% 96%;
-    --oppose: 0 84% 60%;
-    --oppose-foreground: 240 5% 96%;
-    --neutral: 240 5% 64%;
+    /* Battle token colors */
+    --support: 120 70% 45%;
+    --support-foreground: 45 8% 95%;
+    --oppose: 0 85% 65%;
+    --oppose-foreground: 45 8% 95%;
+    --neutral: 45 5% 68%;
+    --battle-token: 50 95% 55%;
+    --battle-token-foreground: 25 5% 8%;
     
-    /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(250 100% 68%), hsl(262 83% 58%));
-    --gradient-support: linear-gradient(135deg, hsl(142 76% 36%), hsl(142 76% 46%));
-    --gradient-oppose: linear-gradient(135deg, hsl(0 84% 60%), hsl(15 84% 60%));
-    --gradient-card: linear-gradient(135deg, hsl(240 8% 8%), hsl(240 6% 12%));
+    /* Gold gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(45 100% 65%), hsl(40 95% 60%));
+    --gradient-support: linear-gradient(135deg, hsl(120 70% 45%), hsl(120 60% 55%));
+    --gradient-oppose: linear-gradient(135deg, hsl(0 85% 65%), hsl(15 85% 65%));
+    --gradient-card: linear-gradient(135deg, hsl(30 8% 12%), hsl(35 10% 16%));
+    --gradient-gold: linear-gradient(135deg, hsl(45 100% 65%), hsl(50 95% 55%));
+    --gradient-battle: linear-gradient(135deg, hsl(50 95% 55%), hsl(45 90% 60%));
     
-    /* Shadows */
-    --shadow-glow: 0 0 40px hsl(250 100% 68% / 0.3);
-    --shadow-card: 0 8px 32px hsl(240 10% 4% / 0.8);
+    /* Gold shadows */
+    --shadow-glow: 0 0 40px hsl(45 100% 65% / 0.4);
+    --shadow-gold: 0 0 30px hsl(45 100% 65% / 0.3);
+    --shadow-card: 0 8px 32px hsl(25 5% 8% / 0.8);
 
     --radius: 0.5rem;
 

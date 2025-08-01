@@ -22,6 +22,8 @@ const buttonVariants = cva(
         support: "bg-gradient-support text-support-foreground hover:scale-105 border border-support/30",
         oppose: "bg-gradient-oppose text-oppose-foreground hover:scale-105 border border-oppose/30",
         prediction: "bg-gradient-card text-foreground hover:scale-105 border border-border shadow-card",
+        gold: "bg-gradient-gold text-primary-foreground hover:scale-105 shadow-gold",
+        battle: "bg-gradient-battle text-battle-token-foreground hover:scale-105 shadow-gold border border-battle-token/30",
       },
       size: {
         default: "h-10 px-4 py-2",

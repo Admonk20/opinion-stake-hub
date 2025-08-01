@@ -172,8 +172,8 @@ export type Database = {
           created_at: string
           description: string
           ends_at: string
-          entry_price: number
           id: string
+          min_battle_tokens: number
           oppose_count: number
           oppose_pool: number
           resolved_at: string | null
@@ -187,8 +187,8 @@ export type Database = {
           created_at?: string
           description: string
           ends_at: string
-          entry_price?: number
           id?: string
+          min_battle_tokens?: number
           oppose_count?: number
           oppose_pool?: number
           resolved_at?: string | null
@@ -202,8 +202,8 @@ export type Database = {
           created_at?: string
           description?: string
           ends_at?: string
-          entry_price?: number
           id?: string
+          min_battle_tokens?: number
           oppose_count?: number
           oppose_pool?: number
           resolved_at?: string | null
@@ -216,24 +216,24 @@ export type Database = {
       }
       user_answers: {
         Row: {
-          amount_paid: number
           answer: string
+          battle_tokens_used: number
           created_at: string
           id: string
           trivia_id: string
           user_id: string
         }
         Insert: {
-          amount_paid: number
           answer: string
+          battle_tokens_used?: number
           created_at?: string
           id?: string
           trivia_id: string
           user_id: string
         }
         Update: {
-          amount_paid?: number
           answer?: string
+          battle_tokens_used?: number
           created_at?: string
           id?: string
           trivia_id?: string
@@ -271,6 +271,36 @@ export type Database = {
           id?: string
           total_winnings?: number
           total_withdrawn?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_battle_tokens: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          total_purchased: number
+          total_spent: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          total_purchased?: number
+          total_spent?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          total_purchased?: number
+          total_spent?: number
           updated_at?: string
           user_id?: string
         }

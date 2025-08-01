@@ -17,7 +17,7 @@ interface UserAnswer {
   id: string;
   trivia_id: string;
   answer: string;
-  amount_paid: number;
+  battle_tokens_used: number;
   created_at: string;
   trivias: {
     title: string;
@@ -262,7 +262,7 @@ export const Dashboard = ({ walletAddress, userId }: DashboardProps) => {
                     <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <span>Your answer: {answer.answer === 'support' ? 'Yes' : 'No'}</span>
                       <span>•</span>
-                      <span>Paid: {answer.amount_paid} BNB</span>
+                      <span>Staked: {answer.battle_tokens_used} Tokens</span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">

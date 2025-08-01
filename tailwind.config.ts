@@ -61,6 +61,10 @@ export default {
 					foreground: 'hsl(var(--oppose-foreground))'
 				},
 				neutral: 'hsl(var(--neutral))',
+				'battle-token': {
+					DEFAULT: 'hsl(var(--battle-token))',
+					foreground: 'hsl(var(--battle-token-foreground))'
+				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
@@ -82,9 +86,12 @@ export default {
 				'gradient-support': 'var(--gradient-support)',
 				'gradient-oppose': 'var(--gradient-oppose)',
 				'gradient-card': 'var(--gradient-card)',
+				'gradient-gold': 'var(--gradient-gold)',
+				'gradient-battle': 'var(--gradient-battle)',
 			},
 			boxShadow: {
 				'glow': 'var(--shadow-glow)',
+				'gold': 'var(--shadow-gold)',
 				'card': 'var(--shadow-card)',
 			},
 			keyframes: {
