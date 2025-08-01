@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import LoadingLink from '@/components/LoadingLink';
 import { Trophy, Medal, Award } from 'lucide-react';
 
 interface LeaderboardEntry {
@@ -121,12 +122,12 @@ const Leaderboard = () => {
           </Card>
 
           <div className="mt-8 text-center">
-            <a
-              href="/"
+            <LoadingLink
+              to="/"
               className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
             >
               ← Back to Battles
-            </a>
+            </LoadingLink>
           </div>
         </div>
       </div>

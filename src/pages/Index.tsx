@@ -3,6 +3,7 @@ import { WalletConnect } from '@/components/WalletConnect';
 import { TriviaCard, Trivia } from '@/components/TriviaCard';
 import { Dashboard } from '@/components/Dashboard';
 import { Button } from '@/components/ui/button';
+import LoadingLink from '@/components/LoadingLink';
 import { TrendingUp, BarChart3, Zap, Shield, User, Home, Coins, Trophy, Star, Target, Gamepad2, Crown } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
@@ -506,22 +507,22 @@ const Index = () => {
             </div>
             <div className="space-y-4">
               <h3 className="font-semibold">Community</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <a href="https://discord.gg/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Discord</a>
-                <a href="https://t.me/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Telegram</a>
-                <a href="https://twitter.com/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Twitter</a>
-                <a href="/leaderboard" className="block hover:text-foreground transition-colors">Leaderboard</a>
-              </div>
-            </div>
-            <div className="space-y-4">
-              <h3 className="font-semibold">Support</h3>
-              <div className="space-y-2 text-sm text-muted-foreground">
-                <a href="/help" className="block hover:text-foreground transition-colors">Help Center</a>
-                <a href="mailto:support@memecoinbattles.com" className="block hover:text-foreground transition-colors">Contact Us</a>
-                <a href="/terms" className="block hover:text-foreground transition-colors">Terms of Service</a>
-                <a href="/privacy" className="block hover:text-foreground transition-colors">Privacy Policy</a>
-              </div>
-            </div>
+               <div className="space-y-2 text-sm text-muted-foreground">
+                 <LoadingLink to="https://discord.gg/memecoinbattles" external className="block hover:text-foreground transition-colors">Discord</LoadingLink>
+                 <LoadingLink to="https://t.me/memecoinbattles" external className="block hover:text-foreground transition-colors">Telegram</LoadingLink>
+                 <LoadingLink to="https://twitter.com/memecoinbattles" external className="block hover:text-foreground transition-colors">Twitter</LoadingLink>
+                 <LoadingLink to="/leaderboard" className="block hover:text-foreground transition-colors">Leaderboard</LoadingLink>
+               </div>
+             </div>
+             <div className="space-y-4">
+               <h3 className="font-semibold">Support</h3>
+               <div className="space-y-2 text-sm text-muted-foreground">
+                 <LoadingLink to="/help" className="block hover:text-foreground transition-colors">Help Center</LoadingLink>
+                 <a href="mailto:support@memecoinbattles.com" className="block hover:text-foreground transition-colors">Contact Us</a>
+                 <LoadingLink to="/terms" className="block hover:text-foreground transition-colors">Terms of Service</LoadingLink>
+                 <LoadingLink to="/privacy" className="block hover:text-foreground transition-colors">Privacy Policy</LoadingLink>
+               </div>
+             </div>
           </div>
           <div className="border-t border-border pt-8 text-center text-muted-foreground text-sm">
             <p>&copy; 2025 Memecoin Battles. Battle responsibly. May the best predictions win!</p>
