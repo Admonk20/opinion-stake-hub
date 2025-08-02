@@ -4,6 +4,7 @@ import { TriviaCard, Trivia } from '@/components/TriviaCard';
 import { Dashboard } from '@/components/Dashboard';
 import TokenPurchase from '@/components/TokenPurchase';
 import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
 import { Link } from 'react-router-dom';
 import { TrendingUp, BarChart3, Zap, Shield, User, Home, Coins, Trophy, Star, Target, Gamepad2, Crown } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
@@ -236,6 +237,25 @@ const Index = () => {
             </h1>
           </div>
           <div className="flex items-center gap-4">
+            {user && (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="outline">
+                    <Coins className="h-4 w-4 mr-2" />
+                    Buy Tokens
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <TokenPurchase 
+                    userWalletAddress={connectedAccount}
+                    isWalletConnected={!!connectedAccount}
+                    onConnectWallet={() => {
+                      // The WalletConnect component handles this automatically
+                    }}
+                  />
+                </DialogContent>
+              </Dialog>
+            )}
             <WalletConnect onConnect={handleWalletConnect} />
           </div>
         </div>
@@ -271,18 +291,6 @@ const Index = () => {
             </div>
           )}
 
-          {/* Token Purchase Section */}
-          {user && (
-            <div className="mt-8">
-              <TokenPurchase 
-                userWalletAddress={connectedAccount}
-                isWalletConnected={!!connectedAccount}
-                onConnectWallet={() => {
-                  // The WalletConnect component handles this automatically
-                }}
-              />
-            </div>
-          )}
 
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mt-16">
