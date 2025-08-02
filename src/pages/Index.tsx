@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { WalletConnect } from '@/components/WalletConnect';
 import { TriviaCard, Trivia } from '@/components/TriviaCard';
 import { Dashboard } from '@/components/Dashboard';
+import TokenPurchase from '@/components/TokenPurchase';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { TrendingUp, BarChart3, Zap, Shield, User, Home, Coins, Trophy, Star, Target, Gamepad2, Crown } from 'lucide-react';
@@ -267,6 +268,19 @@ const Index = () => {
               <span className="text-lg font-semibold text-battle-token-foreground">
                 {battleTokens} Battle Tokens
               </span>
+            </div>
+          )}
+
+          {/* Token Purchase Section */}
+          {user && (
+            <div className="mt-8">
+              <TokenPurchase 
+                userWalletAddress={connectedAccount}
+                isWalletConnected={!!connectedAccount}
+                onConnectWallet={() => {
+                  // The WalletConnect component handles this automatically
+                }}
+              />
             </div>
           )}
 
