@@ -3,7 +3,7 @@ import { WalletConnect } from '@/components/WalletConnect';
 import { TriviaCard, Trivia } from '@/components/TriviaCard';
 import { Dashboard } from '@/components/Dashboard';
 import { Button } from '@/components/ui/button';
-import LoadingLink from '@/components/LoadingLink';
+import { Link } from 'react-router-dom';
 import { TrendingUp, BarChart3, Zap, Shield, User, Home, Coins, Trophy, Star, Target, Gamepad2, Crown } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from '@/hooks/use-toast';
@@ -508,19 +508,19 @@ const Index = () => {
             <div className="space-y-4">
               <h3 className="font-semibold">Community</h3>
                <div className="space-y-2 text-sm text-muted-foreground">
-                 <LoadingLink to="https://discord.gg/memecoinbattles" external className="block hover:text-foreground transition-colors">Discord</LoadingLink>
-                 <LoadingLink to="https://t.me/memecoinbattles" external className="block hover:text-foreground transition-colors">Telegram</LoadingLink>
-                 <LoadingLink to="https://twitter.com/memecoinbattles" external className="block hover:text-foreground transition-colors">Twitter</LoadingLink>
-                 <LoadingLink to="/leaderboard" className="block hover:text-foreground transition-colors">Leaderboard</LoadingLink>
+                 <a href="https://discord.gg/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Discord</a>
+                 <a href="https://t.me/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Telegram</a>
+                 <a href="https://twitter.com/memecoinbattles" target="_blank" rel="noopener noreferrer" className="block hover:text-foreground transition-colors">Twitter</a>
+                 <Link to="/leaderboard" className="block hover:text-foreground transition-colors">Leaderboard</Link>
                </div>
              </div>
              <div className="space-y-4">
                <h3 className="font-semibold">Support</h3>
                <div className="space-y-2 text-sm text-muted-foreground">
-                 <LoadingLink to="/help" className="block hover:text-foreground transition-colors">Help Center</LoadingLink>
+                 <Link to="/help" className="block hover:text-foreground transition-colors">Help Center</Link>
                  <a href="mailto:support@memecoinbattles.com" className="block hover:text-foreground transition-colors">Contact Us</a>
-                 <LoadingLink to="/terms" className="block hover:text-foreground transition-colors">Terms of Service</LoadingLink>
-                 <LoadingLink to="/privacy" className="block hover:text-foreground transition-colors">Privacy Policy</LoadingLink>
+                 <Link to="/terms" className="block hover:text-foreground transition-colors">Terms of Service</Link>
+                 <Link to="/privacy" className="block hover:text-foreground transition-colors">Privacy Policy</Link>
                </div>
              </div>
           </div>
