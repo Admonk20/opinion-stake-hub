@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { LoadingProvider, useLoading } from "@/contexts/LoadingContext";
 import LoadingScreen from "@/components/LoadingScreen";
+import InitialLoadingScreen from "@/components/InitialLoadingScreen";
 import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
@@ -16,6 +17,15 @@ const queryClient = new QueryClient();
 
 const AppContent = () => {
   const { isLoading } = useLoading();
+  const [initialLoading, setInitialLoading] = useState(true);
+
+  const handleInitialLoadingComplete = () => {
+    setInitialLoading(false);
+  };
+
+  if (initialLoading) {
+    return <InitialLoadingScreen onLoadingComplete={handleInitialLoadingComplete} />;
+  }
   
   return (
     <>
