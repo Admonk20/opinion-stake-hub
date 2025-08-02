@@ -25,8 +25,12 @@ const Index = () => {
     });
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
+      // After successful sign-up, automatically show dashboard with active battles
+      if (event === 'SIGNED_IN' && session?.user) {
+        setCurrentView('dashboard');
+      }
     });
 
     return () => subscription.unsubscribe();
