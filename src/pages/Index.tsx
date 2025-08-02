@@ -235,12 +235,6 @@ const Index = () => {
             </h1>
           </div>
           <div className="flex items-center gap-4">
-            {user && connectedAccount && (
-              <Button variant="outline" onClick={() => setCurrentView('dashboard')}>
-                <User className="h-4 w-4 mr-2" />
-                Dashboard
-              </Button>
-            )}
             <WalletConnect onConnect={handleWalletConnect} />
           </div>
         </div>
