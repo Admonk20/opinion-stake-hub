@@ -22,15 +22,28 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({
   const [bnbAmount, setBnbAmount] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [currentBalance, setCurrentBalance] = useState(0);
+  const [bnbPrice, setBnbPrice] = useState(0);
   const { toast } = useToast();
 
-  // Token exchange rate: 1 BNB = 1000 Battle Tokens
-  const TOKENS_PER_BNB = 1000;
-  const tokensToReceive = bnbAmount ? parseFloat(bnbAmount) * TOKENS_PER_BNB : 0;
+  // Token exchange rate: $1 per 1 Battle Token
+  const tokensToReceive = bnbAmount && bnbPrice ? parseFloat(bnbAmount) * bnbPrice : 0;
 
   useEffect(() => {
     fetchCurrentBalance();
+    fetchBnbPrice();
   }, []);
+
+  const fetchBnbPrice = async () => {
+    try {
+      const response = await fetch('https://api.binance.com/api/v3/ticker/price?symbol=BNBUSDT');
+      const data = await response.json();
+      setBnbPrice(parseFloat(data.price));
+    } catch (error) {
+      console.error('Error fetching BNB price:', error);
+      // Fallback price if API fails
+      setBnbPrice(600);
+    }
+  };
 
   const fetchCurrentBalance = async () => {
     try {
@@ -167,14 +180,22 @@ const TokenPurchase: React.FC<TokenPurchaseProps> = ({
           {/* Exchange Rate Info */}
           <div className="bg-primary/10 rounded-lg p-3 space-y-2">
             <div className="flex justify-between text-sm">
-              <span>Exchange Rate:</span>
-              <span className="font-medium">1 BNB = {TOKENS_PER_BNB.toLocaleString()} Tokens</span>
+              <span>Token Price:</span>
+              <span className="font-medium">$1.00 per Token</span>
             </div>
+            {bnbPrice > 0 && (
+              <>
+                <div className="flex justify-between text-sm">
+                  <span>BNB Price:</span>
+                  <span className="font-medium">${bnbPrice.toFixed(2)}</span>
+                </div>
+              </>
+            )}
             <Separator />
             <div className="flex justify-between text-sm">
               <span>You will receive:</span>
               <span className="font-semibold text-primary">
-                {tokensToReceive.toLocaleString()} Tokens
+                {Math.floor(tokensToReceive).toLocaleString()} Tokens
               </span>
             </div>
           </div>
