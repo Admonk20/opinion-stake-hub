@@ -73,7 +73,7 @@ const Index = () => {
         .eq("status", "active");
 
       // Apply category filter
-      if (selectedCategory) {
+      if (selectedCategory && selectedCategory !== "all") {
         query = query.eq("category_id", selectedCategory);
       }
 
