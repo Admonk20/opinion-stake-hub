@@ -4,25 +4,20 @@ import { Crown, TrendingUp, User, Wallet, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { ThemeToggle } from "./ThemeToggle";
-
 interface MobileNavbarProps {
   user: any;
 }
-
-export const MobileNavbar = ({ user }: MobileNavbarProps) => {
+export const MobileNavbar = ({
+  user
+}: MobileNavbarProps) => {
   const [isOpen, setIsOpen] = useState(false);
-
   const handleSignOut = async () => {
-    const { error } = await supabase.auth.signOut();
+    const {
+      error
+    } = await supabase.auth.signOut();
     if (error) {
       toast.error("Error signing out");
     } else {
@@ -30,87 +25,47 @@ export const MobileNavbar = ({ user }: MobileNavbarProps) => {
     }
     setIsOpen(false);
   };
-
-  const NavigationLinks = () => (
-    <div className="flex flex-col space-y-4 p-4">
-      <Link 
-        to="/" 
-        className="text-lg font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
+  const NavigationLinks = () => <div className="flex flex-col space-y-4 p-4">
+      <Link to="/" className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setIsOpen(false)}>
         Markets
       </Link>
-      <Link 
-        to="/leaderboard" 
-        className="text-lg font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
+      <Link to="/leaderboard" className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setIsOpen(false)}>
         Leaderboard
       </Link>
-      <Link 
-        to="/portfolio" 
-        className="text-lg font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
+      <Link to="/portfolio" className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setIsOpen(false)}>
         Portfolio
       </Link>
-      <a 
-        href="#" 
-        className="text-lg font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
+      <a href="#" className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setIsOpen(false)}>
         How it works
       </a>
-      <a 
-        href="#" 
-        className="text-lg font-medium transition-colors hover:text-primary"
-        onClick={() => setIsOpen(false)}
-      >
+      <a href="#" className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setIsOpen(false)}>
         About
       </a>
-    </div>
-  );
-
-  return (
-    <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    </div>;
+  return <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <Crown className="h-8 w-8 text-primary" />
-            <span className="text-xl font-bold">AfricaMarket</span>
+            <span className="text-xl font-bold">MemeCoin Battles</span>
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link 
-              to="/" 
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
+            <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">
               Markets
             </Link>
-            <Link 
-              to="/leaderboard" 
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
+            <Link to="/leaderboard" className="text-sm font-medium transition-colors hover:text-primary">
               Leaderboard
             </Link>
-            <Link 
-              to="/portfolio" 
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
+            <Link to="/portfolio" className="text-sm font-medium transition-colors hover:text-primary">
               Portfolio
             </Link>
-            <a 
-              href="#" 
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
+            <a href="#" className="text-sm font-medium transition-colors hover:text-primary">
               How it works
             </a>
-            <a 
-              href="#" 
-              className="text-sm font-medium transition-colors hover:text-primary"
-            >
+            <a href="#" className="text-sm font-medium transition-colors hover:text-primary">
               About
             </a>
           </div>
@@ -118,8 +73,7 @@ export const MobileNavbar = ({ user }: MobileNavbarProps) => {
           {/* User Actions */}
           <div className="flex items-center space-x-2">
             <ThemeToggle />
-            {user ? (
-              <>
+            {user ? <>
                 {/* Desktop User Menu */}
                 <div className="hidden md:block">
                   <DropdownMenu>
@@ -174,22 +128,13 @@ export const MobileNavbar = ({ user }: MobileNavbarProps) => {
                         <NavigationLinks />
                         
                         <div className="border-t pt-4 space-y-2">
-                          <Button 
-                            variant="outline" 
-                            className="w-full justify-start"
-                            onClick={() => setIsOpen(false)}
-                            asChild
-                          >
+                          <Button variant="outline" className="w-full justify-start" onClick={() => setIsOpen(false)} asChild>
                             <Link to="/profile">
                               <User className="h-4 w-4 mr-2" />
                               Profile
                             </Link>
                           </Button>
-                          <Button 
-                            variant="outline" 
-                            className="w-full justify-start"
-                            onClick={handleSignOut}
-                          >
+                          <Button variant="outline" className="w-full justify-start" onClick={handleSignOut}>
                             Sign Out
                           </Button>
                         </div>
@@ -197,9 +142,7 @@ export const MobileNavbar = ({ user }: MobileNavbarProps) => {
                     </SheetContent>
                   </Sheet>
                 </div>
-              </>
-            ) : (
-              <>
+              </> : <>
                 {/* Desktop Auth Buttons */}
                 <div className="hidden md:flex items-center space-x-2">
                   <Link to="/auth">
@@ -242,11 +185,9 @@ export const MobileNavbar = ({ user }: MobileNavbarProps) => {
                     </SheetContent>
                   </Sheet>
                 </div>
-              </>
-            )}
+              </>}
           </div>
         </div>
       </div>
-    </nav>
-  );
+    </nav>;
 };
