@@ -70,14 +70,27 @@ export const MarketSocial = ({ marketId, user }: MarketSocialProps) => {
           upvotes,
           downvotes,
           user_id,
-          parent_id,
-          profiles:user_id(display_name, username, avatar_url)
+          parent_id
         `)
         .eq("market_id", marketId)
         .order("created_at", { ascending: false });
 
       if (error) throw error;
-      setComments(data || []);
+
+      // Get user profiles separately
+      const userIds = [...new Set(data?.map(c => c.user_id) || [])];
+      const { data: profiles } = await supabase
+        .from("profiles")
+        .select("user_id, display_name, username, avatar_url")
+        .in("user_id", userIds);
+
+      // Merge comments with profiles
+      const commentsWithProfiles = data?.map(comment => ({
+        ...comment,
+        profiles: profiles?.find(p => p.user_id === comment.user_id)
+      })) || [];
+
+      setComments(commentsWithProfiles);
     } catch (error) {
       console.error("Error loading comments:", error);
     }

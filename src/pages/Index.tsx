@@ -12,7 +12,10 @@ const Index = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("created_at");
-  const [filters, setFilters] = useState({});
+  const [filters, setFilters] = useState<{
+    dateRange?: { from?: Date; to?: Date };
+    volumeRange?: number;
+  }>({});
   const [user, setUser] = useState<any>(null);
   
   // Real-time updates
@@ -88,7 +91,7 @@ const Index = () => {
       }
 
       // Apply volume filter
-      if (filters.volumeRange > 0) {
+      if (filters.volumeRange && filters.volumeRange > 0) {
         query = query.gte("volume", filters.volumeRange);
       }
 
