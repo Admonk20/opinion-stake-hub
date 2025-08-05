@@ -6,6 +6,71 @@
 
 @layer base {
   :root {
+    /* Light mode - bright, clean colors */
+    --background: 0 0% 100%;
+    --foreground: 240 10% 4%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 4%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 4%;
+
+    --primary: 45 100% 65%;
+    --primary-foreground: 25 5% 8%;
+
+    --secondary: 210 40% 95%;
+    --secondary-foreground: 240 10% 4%;
+
+    --muted: 210 40% 95%;
+    --muted-foreground: 240 3.8% 45%;
+
+    --accent: 40 95% 60%;
+    --accent-foreground: 25 5% 8%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 45 100% 65%;
+
+    /* Battle token colors - light mode */
+    --support: 120 70% 45%;
+    --support-foreground: 0 0% 98%;
+    --oppose: 0 85% 65%;
+    --oppose-foreground: 0 0% 98%;
+    --neutral: 240 3.8% 45%;
+    --battle-token: 50 95% 55%;
+    --battle-token-foreground: 25 5% 8%;
+    
+    /* Light mode gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(45 100% 65%), hsl(40 95% 60%));
+    --gradient-support: linear-gradient(135deg, hsl(120 70% 45%), hsl(120 60% 55%));
+    --gradient-oppose: linear-gradient(135deg, hsl(0 85% 65%), hsl(15 85% 65%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --gradient-gold: linear-gradient(135deg, hsl(45 100% 65%), hsl(50 95% 55%));
+    --gradient-battle: linear-gradient(135deg, hsl(50 95% 55%), hsl(45 90% 60%));
+    
+    /* Light mode shadows */
+    --shadow-glow: 0 0 40px hsl(45 100% 65% / 0.2);
+    --shadow-gold: 0 0 30px hsl(45 100% 65% / 0.15);
+    --shadow-card: 0 1px 3px hsl(240 10% 4% / 0.1);
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode - rich, warm colors for memecoin battles */
     --background: 25 5% 8%;
     --foreground: 45 8% 95%;
 
@@ -34,7 +99,7 @@
     --input: 35 8% 22%;
     --ring: 45 100% 65%;
 
-    /* Battle token colors */
+    /* Battle token colors - dark mode */
     --support: 120 70% 45%;
     --support-foreground: 45 8% 95%;
     --oppose: 0 85% 65%;
@@ -43,7 +108,7 @@
     --battle-token: 50 95% 55%;
     --battle-token-foreground: 25 5% 8%;
     
-    /* Gold gradients */
+    /* Dark mode gradients */
     --gradient-primary: linear-gradient(135deg, hsl(45 100% 65%), hsl(40 95% 60%));
     --gradient-support: linear-gradient(135deg, hsl(120 70% 45%), hsl(120 60% 55%));
     --gradient-oppose: linear-gradient(135deg, hsl(0 85% 65%), hsl(15 85% 65%));
@@ -51,34 +116,19 @@
     --gradient-gold: linear-gradient(135deg, hsl(45 100% 65%), hsl(50 95% 55%));
     --gradient-battle: linear-gradient(135deg, hsl(50 95% 55%), hsl(45 90% 60%));
     
-    /* Gold shadows */
+    /* Dark mode shadows */
     --shadow-glow: 0 0 40px hsl(45 100% 65% / 0.4);
     --shadow-gold: 0 0 30px hsl(45 100% 65% / 0.3);
     --shadow-card: 0 8px 32px hsl(25 5% 8% / 0.8);
 
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    /* Dark mode uses same colors as our primary dark theme */
-    --background: 240 10% 4%;
-    --foreground: 240 5% 96%;
+    --sidebar-background: 35 12% 18%;
+    --sidebar-foreground: 45 8% 95%;
+    --sidebar-primary: 45 100% 65%;
+    --sidebar-primary-foreground: 25 5% 8%;
+    --sidebar-accent: 35 8% 22%;
+    --sidebar-accent-foreground: 45 8% 95%;
+    --sidebar-border: 35 8% 22%;
+    --sidebar-ring: 45 100% 65%;
   }
 }
 
