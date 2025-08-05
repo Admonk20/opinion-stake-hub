@@ -10,7 +10,7 @@ if (!container) throw new Error('Failed to find the root element');
 const root = createRoot(container);
 root.render(
   <StrictMode>
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider>
       <App />
     </ThemeProvider>
   </StrictMode>

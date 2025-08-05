@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { ThemeToggle } from "./ThemeToggle";
+
 interface MobileNavbarProps {
   user: any;
 }
@@ -72,7 +72,6 @@ export const MobileNavbar = ({
 
           {/* User Actions */}
           <div className="flex items-center space-x-2">
-            <ThemeToggle />
             {user ? <>
                 {/* Desktop User Menu */}
                 <div className="hidden md:block">
