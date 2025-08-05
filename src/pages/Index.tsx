@@ -1,19 +1,31 @@
 import React, { useState, useEffect } from "react";
-import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { toast } from "sonner";
+import { useQuery } from "@tanstack/react-query";
 import { Navbar } from "@/components/Navbar";
-import { MarketGrid } from "@/components/MarketGrid";
-import { CategoryFilter } from "@/components/CategoryFilter";
-import { SearchBar } from "@/components/SearchBar";
-import { SortFilter } from "@/components/SortFilter";
 import { HeroSection } from "@/components/HeroSection";
+import { EnhancedSearch } from "@/components/EnhancedSearch";
+import { MarketGrid } from "@/components/MarketGrid";
+import { useRealtimeUpdates } from "@/hooks/useRealtimeUpdates";
+import { toast } from "sonner";
 
 const Index = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [sortBy, setSortBy] = useState("volume");
+  const [sortBy, setSortBy] = useState("created_at");
+  const [filters, setFilters] = useState({});
   const [user, setUser] = useState<any>(null);
+  
+  // Real-time updates
+  const realtimeData = useRealtimeUpdates();
+
+  useEffect(() => {
+    if (realtimeData.trades) {
+      toast.success("New trade activity detected!");
+    }
+    if (realtimeData.prices) {
+      toast.info("Market prices updated!");
+    }
+  }, [realtimeData]);
 
   // Check authentication status
   useEffect(() => {
@@ -31,7 +43,7 @@ const Index = () => {
   }, []);
 
   // Fetch categories
-  const { data: categories } = useQuery({
+  const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: async () => {
       const { data, error } = await supabase
@@ -44,71 +56,86 @@ const Index = () => {
     },
   });
 
-  // Fetch markets with filters
-  const { data: markets, isLoading } = useQuery({
-    queryKey: ["markets", selectedCategory, searchQuery, sortBy],
+  // Fetch markets with real-time updates
+  const { data: markets = [], isLoading } = useQuery({
+    queryKey: ["markets", selectedCategory, searchQuery, sortBy, filters],
     queryFn: async () => {
       let query = supabase
         .from("markets")
         .select(`
           *,
-          categories (name, color),
-          market_outcomes (*)
+          categories(name, color),
+          market_outcomes(id, name, slug, current_price, volume)
         `)
         .eq("status", "active");
 
-      if (selectedCategory !== "all") {
-        const category = categories?.find(c => c.slug === selectedCategory);
-        if (category) {
-          query = query.eq("category_id", category.id);
-        }
+      // Apply category filter
+      if (selectedCategory) {
+        query = query.eq("category_id", selectedCategory);
       }
 
+      // Apply search filter
       if (searchQuery) {
-        query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%`);
+        query = query.or(`title.ilike.%${searchQuery}%,description.ilike.%${searchQuery}%,question.ilike.%${searchQuery}%`);
       }
 
-      const { data, error } = await query.order(
-        sortBy === "volume" ? "volume" : "created_at",
-        { ascending: false }
-      );
+      // Apply date range filter
+      if (filters.dateRange?.from) {
+        query = query.gte("end_date", filters.dateRange.from.toISOString());
+      }
+      if (filters.dateRange?.to) {
+        query = query.lte("end_date", filters.dateRange.to.toISOString());
+      }
+
+      // Apply volume filter
+      if (filters.volumeRange > 0) {
+        query = query.gte("volume", filters.volumeRange);
+      }
+
+      // Apply sorting
+      if (sortBy === "volume") {
+        query = query.order("volume", { ascending: false });
+      } else if (sortBy === "end_date") {
+        query = query.order("end_date", { ascending: true });
+      } else if (sortBy === "activity") {
+        query = query.order("volume", { ascending: false });
+      } else {
+        query = query.order("created_at", { ascending: false });
+      }
+
+      const { data, error } = await query;
       
       if (error) throw error;
       return data;
     },
-    enabled: !!categories,
+    enabled: !!categories.length,
   });
 
   return (
     <div className="min-h-screen bg-background">
       <Navbar user={user} />
-      
-      <div className="container mx-auto px-4 py-6">
-        {/* Hero Section */}
+      <main className="container mx-auto px-4 py-8">
         <HeroSection />
-
-        {/* Filters */}
-        <div className="flex flex-col lg:flex-row gap-4 mb-8">
-          <div className="flex-1">
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
-          </div>
-          <div className="flex gap-4">
-            <SortFilter value={sortBy} onChange={setSortBy} />
-            <CategoryFilter 
-              categories={categories || []}
-              selected={selectedCategory}
-              onChange={setSelectedCategory}
-            />
-          </div>
+        
+        <div className="mb-8">
+          <EnhancedSearch
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            categories={categories}
+            selectedCategory={selectedCategory}
+            onCategoryChange={setSelectedCategory}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            onFiltersChange={setFilters}
+          />
         </div>
 
-        {/* Markets Grid */}
         <MarketGrid 
-          markets={markets || []} 
-          isLoading={isLoading}
+          markets={markets} 
+          isLoading={isLoading} 
           user={user}
         />
-      </div>
+      </main>
     </div>
   );
 };

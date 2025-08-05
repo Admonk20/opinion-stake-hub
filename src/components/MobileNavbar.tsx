@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Crown, TrendingUp, User, Wallet, Menu, X } from "lucide-react";
+import { Crown, TrendingUp, User, Wallet, Menu } from "lucide-react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -116,7 +116,8 @@ export const MobileNavbar = ({ user }: MobileNavbarProps) => {
           </div>
 
           {/* User Actions */}
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2">
+            <ThemeToggle />
             {user ? (
               <>
                 {/* Desktop User Menu */}

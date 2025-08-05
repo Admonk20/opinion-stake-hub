@@ -1,7 +1,8 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import { ThemeProvider } from "./components/theme-provider";
 
 const container = document.getElementById("root");
 if (!container) throw new Error('Failed to find the root element');
@@ -9,6 +10,8 @@ if (!container) throw new Error('Failed to find the root element');
 const root = createRoot(container);
 root.render(
   <StrictMode>
-    <App />
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <App />
+    </ThemeProvider>
   </StrictMode>
 );

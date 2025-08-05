@@ -4,7 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TradingInterface } from "@/components/TradingInterface";
+import { MarketSocial } from "@/components/MarketSocial";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { 
@@ -222,145 +224,83 @@ const MarketDetail = () => {
           <h1 className="text-3xl font-bold">Market Details</h1>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <Tabs defaultValue="trading" className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Market Header */}
-            <Card>
-              <CardContent className="p-6">
-                <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-2">
-                      {market.categories && (
-                        <Badge 
-                          variant="secondary"
-                          style={{ backgroundColor: market.categories.color + "20", color: market.categories.color }}
-                        >
-                          <Tag className="h-3 w-3 mr-1" />
-                          {market.categories.name}
-                        </Badge>
-                      )}
-                      <Badge variant={market.status === "active" ? "default" : "secondary"}>
-                        {market.status}
-                      </Badge>
-                    </div>
-                    <h2 className="text-2xl font-bold mb-2">{market.title}</h2>
-                    <p className="text-muted-foreground mb-4">{market.description}</p>
-                    <div className="text-lg font-semibold text-primary">
-                      "{market.question}"
-                    </div>
-                  </div>
-                  
-                  {market.image_url && (
-                    <div className="w-32 h-32 rounded-lg overflow-hidden bg-muted">
-                      <img 
-                        src={market.image_url} 
-                        alt={market.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  )}
-                </div>
+            <TabsList className="grid w-full grid-cols-3">
+              <TabsTrigger value="trading">Trading</TabsTrigger>
+              <TabsTrigger value="activity">Activity</TabsTrigger>
+              <TabsTrigger value="discussion">Discussion</TabsTrigger>
+            </TabsList>
 
-                {/* Market Stats */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t">
-                  <div className="text-center">
-                    <div className="flex items-center justify-center gap-1 mb-1">
-                      <DollarSign className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Volume</span>
-                    </div>
-                    <p className="font-semibold">{formatCurrency(market.volume)}</p>
-                  </div>
-                  
-                  <div className="text-center">
-                    <div className="flex items-center justify-center gap-1 mb-1">
-                      <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Liquidity</span>
-                    </div>
-                    <p className="font-semibold">{formatCurrency(market.liquidity)}</p>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="flex items-center justify-center gap-1 mb-1">
-                      <Clock className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">Time Left</span>
-                    </div>
-                    <p className="font-semibold text-sm">{getTimeUntilEnd()}</p>
-                  </div>
-
-                  <div className="text-center">
-                    <div className="flex items-center justify-center gap-1 mb-1">
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                      <span className="text-sm text-muted-foreground">End Date</span>
-                    </div>
-                    <p className="font-semibold text-sm">
-                      {new Date(market.end_date).toLocaleDateString()}
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Current Prices */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Current Prices</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {market.market_outcomes.map((outcome) => (
-                    <div key={outcome.id} className="p-4 border rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5">
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="font-semibold text-lg">{outcome.name}</h3>
-                        <Badge variant="secondary" className="text-lg px-3 py-1">
-                          {formatPercentage(outcome.current_price)}
-                        </Badge>
-                      </div>
-                      <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>Price: {formatCurrency(outcome.current_price)}</span>
-                        <span>Volume: {formatCurrency(outcome.volume)}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Recent Trades */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Users className="h-5 w-5" />
-                  Recent Activity
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                {recentTrades.length === 0 ? (
-                  <div className="text-center py-8 text-muted-foreground">
-                    No trading activity yet. Be the first to trade!
-                  </div>
-                ) : (
-                  <div className="space-y-3">
-                    {recentTrades.map((trade) => (
-                      <div key={trade.id} className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
-                        <div>
-                          <span className={`font-medium ${trade.trade_type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>
-                            {trade.trade_type.toUpperCase()}
-                          </span>
-                          <span className="ml-2">{trade.market_outcome.name}</span>
+            <TabsContent value="trading">
+              {/* Current Prices */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Current Prices</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {market.market_outcomes.map((outcome) => (
+                      <div key={outcome.id} className="p-4 border rounded-lg bg-gradient-to-r from-primary/5 to-secondary/5">
+                        <div className="flex justify-between items-center mb-2">
+                          <h3 className="font-semibold text-lg">{outcome.name}</h3>
+                          <Badge variant="secondary" className="text-lg px-3 py-1">
+                            {formatPercentage(outcome.current_price)}
+                          </Badge>
                         </div>
-                        <div className="text-right">
-                          <div className="font-medium">{trade.shares} shares @ {formatCurrency(trade.price)}</div>
-                          <div className="text-sm text-muted-foreground">
-                            {new Date(trade.created_at).toLocaleTimeString()}
-                          </div>
+                        <div className="flex justify-between text-sm text-muted-foreground">
+                          <span>Price: {formatCurrency(outcome.current_price)}</span>
+                          <span>Volume: {formatCurrency(outcome.volume)}</span>
                         </div>
                       </div>
                     ))}
                   </div>
-                )}
-              </CardContent>
-            </Card>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="activity">
+              {/* Recent Trades */}
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Users className="h-5 w-5" />
+                    Recent Activity
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  {recentTrades.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      No trading activity yet. Be the first to trade!
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      {recentTrades.map((trade) => (
+                        <div key={trade.id} className="flex justify-between items-center p-3 bg-muted/50 rounded-lg">
+                          <div>
+                            <span className={`font-medium ${trade.trade_type === 'buy' ? 'text-green-600' : 'text-red-600'}`}>
+                              {trade.trade_type.toUpperCase()}
+                            </span>
+                            <span className="ml-2">{trade.market_outcome.name}</span>
+                          </div>
+                          <div className="text-right">
+                            <div className="font-medium">{trade.shares} shares @ {formatCurrency(trade.price)}</div>
+                            <div className="text-sm text-muted-foreground">
+                              {new Date(trade.created_at).toLocaleTimeString()}
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="discussion">
+              <MarketSocial marketId={market.id} user={user} />
+            </TabsContent>
           </div>
 
           {/* Sidebar */}
@@ -400,7 +340,7 @@ const MarketDetail = () => {
               </CardContent>
             </Card>
           </div>
-        </div>
+        </Tabs>
       </div>
     </div>
   );
