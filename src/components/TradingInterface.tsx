@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -175,137 +176,84 @@ export const TradingInterface = ({ market, user, onTradeComplete }: TradingInter
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
-        <Tabs value={tradeType} onValueChange={(value) => setTradeType(value as "buy" | "sell")}>
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="buy" className="flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              Buy
-            </TabsTrigger>
-            <TabsTrigger value="sell" className="flex items-center gap-2">
-              <TrendingDown className="h-4 w-4" />
-              Sell
-            </TabsTrigger>
-          </TabsList>
+        <div className="space-y-4">
+          <RadioGroup value={tradeType} onValueChange={(value) => setTradeType(value as "buy" | "sell")} className="flex gap-6">
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="buy" id="buy" />
+              <Label htmlFor="buy" className="flex items-center gap-2 cursor-pointer">
+                <TrendingUp className="h-4 w-4" />
+                Buy
+              </Label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <RadioGroupItem value="sell" id="sell" />
+              <Label htmlFor="sell" className="flex items-center gap-2 cursor-pointer">
+                <TrendingDown className="h-4 w-4" />
+                Sell
+              </Label>
+            </div>
+          </RadioGroup>
 
-          <TabsContent value="buy" className="space-y-4">
-            <div>
-              <label className="text-sm font-medium">Select Outcome</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                {market.market_outcomes.map((outcome: any) => (
-                  <button
-                    key={outcome.id}
-                    onClick={() => setSelectedOutcome(outcome.id)}
-                    className={`p-3 border rounded-lg text-left transition-colors ${
-                      selectedOutcome === outcome.id
-                        ? "border-primary bg-primary/10"
-                        : "border-border hover:border-primary/50"
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{outcome.name}</span>
-                      <Badge variant="secondary">
-                        {formatPercentage(outcome.current_price)}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {formatCurrency(outcome.current_price)} per share
-                    </p>
-                  </button>
-                ))}
+          <div>
+            <label className="text-sm font-medium">Select Outcome</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+              {market.market_outcomes.map((outcome: any) => (
+                <button
+                  key={outcome.id}
+                  onClick={() => setSelectedOutcome(outcome.id)}
+                  className={`p-3 border rounded-lg text-left transition-colors ${
+                    selectedOutcome === outcome.id
+                      ? "border-primary bg-primary/10"
+                      : "border-border hover:border-primary/50"
+                  }`}
+                >
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium">{outcome.name}</span>
+                    <Badge variant="secondary">
+                      {formatPercentage(outcome.current_price)}
+                    </Badge>
+                  </div>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {formatCurrency(outcome.current_price)} per share
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-medium">Number of Shares</label>
+            <Input
+              type="number"
+              min="1"
+              step="1"
+              value={shares}
+              onChange={(e) => setShares(e.target.value)}
+              placeholder="Enter number of shares"
+              className="mt-1"
+            />
+          </div>
+
+          {shares && selectedOutcome && (
+            <div className="p-4 bg-muted/50 rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">
+                  {tradeType === "buy" ? "Total Cost:" : "You'll Receive:"}
+                </span>
+                <span className="font-semibold">{formatCurrency(calculateCost())}</span>
               </div>
             </div>
+          )}
 
-            <div>
-              <label className="text-sm font-medium">Number of Shares</label>
-              <Input
-                type="number"
-                min="1"
-                step="1"
-                value={shares}
-                onChange={(e) => setShares(e.target.value)}
-                placeholder="Enter number of shares"
-                className="mt-1"
-              />
-            </div>
-
-            {shares && selectedOutcome && (
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">Total Cost:</span>
-                  <span className="font-semibold">{formatCurrency(calculateCost())}</span>
-                </div>
-              </div>
-            )}
-
-            <Button 
-              onClick={handleTrade}
-              disabled={loading || !shares || !selectedOutcome || !user}
-              className="w-full"
-            >
-              {loading ? "Processing..." : `Buy ${shares || "0"} Shares`}
-            </Button>
-          </TabsContent>
-
-          <TabsContent value="sell" className="space-y-4">
-            <div>
-              <label className="text-sm font-medium">Select Outcome</label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-                {market.market_outcomes.map((outcome: any) => (
-                  <button
-                    key={outcome.id}
-                    onClick={() => setSelectedOutcome(outcome.id)}
-                    className={`p-3 border rounded-lg text-left transition-colors ${
-                      selectedOutcome === outcome.id
-                        ? "border-primary bg-primary/10"
-                        : "border-border hover:border-primary/50"
-                    }`}
-                  >
-                    <div className="flex justify-between items-center">
-                      <span className="font-medium">{outcome.name}</span>
-                      <Badge variant="secondary">
-                        {formatPercentage(outcome.current_price)}
-                      </Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {formatCurrency(outcome.current_price)} per share
-                    </p>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm font-medium">Number of Shares</label>
-              <Input
-                type="number"
-                min="1"
-                step="1"
-                value={shares}
-                onChange={(e) => setShares(e.target.value)}
-                placeholder="Enter number of shares"
-                className="mt-1"
-              />
-            </div>
-
-            {shares && selectedOutcome && (
-              <div className="p-4 bg-muted/50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-muted-foreground">You'll Receive:</span>
-                  <span className="font-semibold">{formatCurrency(calculateCost())}</span>
-                </div>
-              </div>
-            )}
-
-            <Button 
-              onClick={handleTrade}
-              disabled={loading || !shares || !selectedOutcome || !user}
-              className="w-full"
-              variant="destructive"
-            >
-              {loading ? "Processing..." : `Sell ${shares || "0"} Shares`}
-            </Button>
-          </TabsContent>
-        </Tabs>
+          <Button 
+            onClick={handleTrade}
+            disabled={loading || !shares || !selectedOutcome || !user}
+            className="w-full"
+            variant={tradeType === "sell" ? "destructive" : "default"}
+          >
+            {loading ? "Processing..." : `${tradeType === "buy" ? "Buy" : "Sell"} ${shares || "0"} Shares`}
+          </Button>
+        </div>
 
         {!user && (
           <div className="p-4 bg-muted/50 rounded-lg text-center">
