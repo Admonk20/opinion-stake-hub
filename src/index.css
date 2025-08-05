@@ -6,67 +6,67 @@
 
 @layer base {
   :root {
-    /* Light mode - bright, clean colors */
+    /* Light mode - clean, professional colors */
     --background: 0 0% 100%;
-    --foreground: 240 10% 4%;
+    --foreground: 222.2 84% 4.9%;
 
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 4%;
+    --card-foreground: 222.2 84% 4.9%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 4%;
+    --popover-foreground: 222.2 84% 4.9%;
 
-    --primary: 45 100% 65%;
-    --primary-foreground: 25 5% 8%;
+    --primary: 221.2 83.2% 53.3%;
+    --primary-foreground: 210 40% 98%;
 
-    --secondary: 210 40% 95%;
-    --secondary-foreground: 240 10% 4%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222.2 84% 4.9%;
 
-    --muted: 210 40% 95%;
-    --muted-foreground: 240 3.8% 45%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215.4 16.3% 46.9%;
 
-    --accent: 40 95% 60%;
-    --accent-foreground: 25 5% 8%;
+    --accent: 210 40% 96%;
+    --accent-foreground: 222.2 84% 4.9%;
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
 
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 45 100% 65%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 221.2 83.2% 53.3%;
 
     /* Battle token colors - light mode */
-    --support: 120 70% 45%;
-    --support-foreground: 0 0% 98%;
-    --oppose: 0 85% 65%;
-    --oppose-foreground: 0 0% 98%;
-    --neutral: 240 3.8% 45%;
-    --battle-token: 50 95% 55%;
-    --battle-token-foreground: 25 5% 8%;
+    --support: 142.1 76.2% 36.3%;
+    --support-foreground: 355.7 100% 97.3%;
+    --oppose: 0 84.2% 60.2%;
+    --oppose-foreground: 210 40% 98%;
+    --neutral: 215.4 16.3% 46.9%;
+    --battle-token: 47.9 95.8% 53.1%;
+    --battle-token-foreground: 26 83.3% 14.1%;
     
     /* Light mode gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(45 100% 65%), hsl(40 95% 60%));
-    --gradient-support: linear-gradient(135deg, hsl(120 70% 45%), hsl(120 60% 55%));
-    --gradient-oppose: linear-gradient(135deg, hsl(0 85% 65%), hsl(15 85% 65%));
+    --gradient-primary: linear-gradient(135deg, hsl(221.2 83.2% 53.3%), hsl(221.2 83.2% 63.3%));
+    --gradient-support: linear-gradient(135deg, hsl(142.1 76.2% 36.3%), hsl(142.1 76.2% 46.3%));
+    --gradient-oppose: linear-gradient(135deg, hsl(0 84.2% 60.2%), hsl(0 84.2% 70.2%));
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
-    --gradient-gold: linear-gradient(135deg, hsl(45 100% 65%), hsl(50 95% 55%));
-    --gradient-battle: linear-gradient(135deg, hsl(50 95% 55%), hsl(45 90% 60%));
+    --gradient-gold: linear-gradient(135deg, hsl(47.9 95.8% 53.1%), hsl(47.9 95.8% 63.1%));
+    --gradient-battle: linear-gradient(135deg, hsl(47.9 95.8% 53.1%), hsl(47.9 95.8% 63.1%));
     
     /* Light mode shadows */
-    --shadow-glow: 0 0 40px hsl(45 100% 65% / 0.2);
-    --shadow-gold: 0 0 30px hsl(45 100% 65% / 0.15);
-    --shadow-card: 0 1px 3px hsl(240 10% 4% / 0.1);
+    --shadow-glow: 0 0 20px hsl(221.2 83.2% 53.3% / 0.15);
+    --shadow-gold: 0 0 15px hsl(47.9 95.8% 53.1% / 0.15);
+    --shadow-card: 0 1px 3px hsl(0 0% 0% / 0.1), 0 1px 2px hsl(0 0% 0% / 0.06);
 
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-primary: 221.2 83.2% 53.3%;
+    --sidebar-primary-foreground: 210 40% 98%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222.2 84% 4.9%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 221.2 83.2% 53.3%;
   }
 
   .dark {
