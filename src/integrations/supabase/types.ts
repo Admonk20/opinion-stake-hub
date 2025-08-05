@@ -14,284 +14,337 @@ export type Database = {
   }
   public: {
     Tables: {
-      ai_insights: {
+      categories: {
         Row: {
-          clickable: boolean
+          color: string | null
           created_at: string
-          description: string
-          id: string
-          impact: string
-          title: string
-          user_id: string
-        }
-        Insert: {
-          clickable?: boolean
-          created_at?: string
-          description: string
-          id?: string
-          impact: string
-          title: string
-          user_id: string
-        }
-        Update: {
-          clickable?: boolean
-          created_at?: string
-          description?: string
-          id?: string
-          impact?: string
-          title?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      correction_exercises: {
-        Row: {
-          completed: boolean
-          completed_at: string | null
-          created_at: string
-          description: string
-          duration: string
-          effectiveness: number
-          exercises: string[]
+          description: string | null
+          icon_url: string | null
           id: string
           name: string
-          updated_at: string
-          user_id: string
+          slug: string
         }
         Insert: {
-          completed?: boolean
-          completed_at?: string | null
+          color?: string | null
           created_at?: string
-          description: string
-          duration: string
-          effectiveness: number
-          exercises: string[]
+          description?: string | null
+          icon_url?: string | null
           id?: string
           name: string
-          updated_at?: string
-          user_id: string
+          slug: string
         }
         Update: {
-          completed?: boolean
-          completed_at?: string | null
+          color?: string | null
           created_at?: string
-          description?: string
-          duration?: string
-          effectiveness?: number
-          exercises?: string[]
+          description?: string | null
+          icon_url?: string | null
           id?: string
           name?: string
-          updated_at?: string
-          user_id?: string
+          slug?: string
         }
         Relationships: []
       }
-      neural_patterns: {
+      market_outcomes: {
         Row: {
-          category: string
           created_at: string
-          description: string
+          current_price: number
           id: string
-          impact: string[]
-          neural_pathway: string | null
-          origin: string | null
-          severity: number
+          market_id: string
+          name: string
+          slug: string
+          updated_at: string
+          volume: number
+        }
+        Insert: {
+          created_at?: string
+          current_price?: number
+          id?: string
+          market_id: string
+          name: string
+          slug: string
+          updated_at?: string
+          volume?: number
+        }
+        Update: {
+          created_at?: string
+          current_price?: number
+          id?: string
+          market_id?: string
+          name?: string
+          slug?: string
+          updated_at?: string
+          volume?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "market_outcomes_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "markets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      markets: {
+        Row: {
+          category_id: string | null
+          created_at: string
+          creator_id: string
+          description: string
+          end_date: string
+          id: string
+          image_url: string | null
+          liquidity: number
+          question: string
+          resolution: string | null
+          resolution_date: string | null
           status: string
-          symptoms: string[] | null
+          tags: string[] | null
           title: string
+          updated_at: string
+          volume: number
+        }
+        Insert: {
+          category_id?: string | null
+          created_at?: string
+          creator_id: string
+          description: string
+          end_date: string
+          id?: string
+          image_url?: string | null
+          liquidity?: number
+          question: string
+          resolution?: string | null
+          resolution_date?: string | null
+          status?: string
+          tags?: string[] | null
+          title: string
+          updated_at?: string
+          volume?: number
+        }
+        Update: {
+          category_id?: string | null
+          created_at?: string
+          creator_id?: string
+          description?: string
+          end_date?: string
+          id?: string
+          image_url?: string | null
+          liquidity?: number
+          question?: string
+          resolution?: string | null
+          resolution_date?: string | null
+          status?: string
+          tags?: string[] | null
+          title?: string
+          updated_at?: string
+          volume?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "markets_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "categories"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      positions: {
+        Row: {
+          avg_price: number
+          created_at: string
+          id: string
+          market_id: string
+          outcome_id: string
+          shares: number
+          total_cost: number
           updated_at: string
           user_id: string
         }
         Insert: {
-          category: string
+          avg_price?: number
           created_at?: string
-          description: string
           id?: string
-          impact: string[]
-          neural_pathway?: string | null
-          origin?: string | null
-          severity: number
-          status: string
-          symptoms?: string[] | null
-          title: string
+          market_id: string
+          outcome_id: string
+          shares?: number
+          total_cost?: number
           updated_at?: string
           user_id: string
         }
         Update: {
-          category?: string
+          avg_price?: number
           created_at?: string
-          description?: string
           id?: string
-          impact?: string[]
-          neural_pathway?: string | null
-          origin?: string | null
-          severity?: number
-          status?: string
-          symptoms?: string[] | null
-          title?: string
+          market_id?: string
+          outcome_id?: string
+          shares?: number
+          total_cost?: number
           updated_at?: string
           user_id?: string
         }
+        Relationships: [
+          {
+            foreignKeyName: "positions_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "markets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "positions_outcome_id_fkey"
+            columns: ["outcome_id"]
+            isOneToOne: false
+            referencedRelation: "market_outcomes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          bio: string | null
+          country: string | null
+          created_at: string
+          display_name: string | null
+          id: string
+          updated_at: string
+          user_id: string
+          username: string | null
+          verified: boolean
+        }
+        Insert: {
+          avatar_url?: string | null
+          bio?: string | null
+          country?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id: string
+          username?: string | null
+          verified?: boolean
+        }
+        Update: {
+          avatar_url?: string | null
+          bio?: string | null
+          country?: string | null
+          created_at?: string
+          display_name?: string | null
+          id?: string
+          updated_at?: string
+          user_id?: string
+          username?: string | null
+          verified?: boolean
+        }
         Relationships: []
       }
-      payouts: {
+      trades: {
+        Row: {
+          amount: number
+          buyer_id: string
+          created_at: string
+          id: string
+          market_id: string
+          outcome_id: string
+          price: number
+          seller_id: string | null
+          shares: number
+          trade_type: string
+        }
+        Insert: {
+          amount: number
+          buyer_id: string
+          created_at?: string
+          id?: string
+          market_id: string
+          outcome_id: string
+          price: number
+          seller_id?: string | null
+          shares: number
+          trade_type: string
+        }
+        Update: {
+          amount?: number
+          buyer_id?: string
+          created_at?: string
+          id?: string
+          market_id?: string
+          outcome_id?: string
+          price?: number
+          seller_id?: string | null
+          shares?: number
+          trade_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "trades_market_id_fkey"
+            columns: ["market_id"]
+            isOneToOne: false
+            referencedRelation: "markets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "trades_outcome_id_fkey"
+            columns: ["outcome_id"]
+            isOneToOne: false
+            referencedRelation: "market_outcomes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      transactions: {
         Row: {
           amount: number
           created_at: string
+          description: string | null
           id: string
-          trivia_id: string
+          reference_id: string | null
+          status: string
+          type: string
           user_id: string
         }
         Insert: {
           amount: number
           created_at?: string
+          description?: string | null
           id?: string
-          trivia_id: string
+          reference_id?: string | null
+          status?: string
+          type: string
           user_id: string
         }
         Update: {
           amount?: number
           created_at?: string
+          description?: string | null
           id?: string
-          trivia_id?: string
+          reference_id?: string | null
+          status?: string
+          type?: string
           user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "payouts_trivia_id_fkey"
-            columns: ["trivia_id"]
-            isOneToOne: false
-            referencedRelation: "trivias"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      trivias: {
-        Row: {
-          correct_answer: string
-          created_at: string
-          description: string
-          ends_at: string
-          id: string
-          min_battle_tokens: number
-          oppose_count: number
-          oppose_pool: number
-          resolved_at: string | null
-          status: string
-          support_count: number
-          support_pool: number
-          title: string
-        }
-        Insert: {
-          correct_answer: string
-          created_at?: string
-          description: string
-          ends_at: string
-          id?: string
-          min_battle_tokens?: number
-          oppose_count?: number
-          oppose_pool?: number
-          resolved_at?: string | null
-          status?: string
-          support_count?: number
-          support_pool?: number
-          title: string
-        }
-        Update: {
-          correct_answer?: string
-          created_at?: string
-          description?: string
-          ends_at?: string
-          id?: string
-          min_battle_tokens?: number
-          oppose_count?: number
-          oppose_pool?: number
-          resolved_at?: string | null
-          status?: string
-          support_count?: number
-          support_pool?: number
-          title?: string
         }
         Relationships: []
       }
-      user_answers: {
-        Row: {
-          answer: string
-          battle_tokens_used: number
-          created_at: string
-          id: string
-          trivia_id: string
-          user_id: string
-        }
-        Insert: {
-          answer: string
-          battle_tokens_used?: number
-          created_at?: string
-          id?: string
-          trivia_id: string
-          user_id: string
-        }
-        Update: {
-          answer?: string
-          battle_tokens_used?: number
-          created_at?: string
-          id?: string
-          trivia_id?: string
-          user_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "user_answers_trivia_id_fkey"
-            columns: ["trivia_id"]
-            isOneToOne: false
-            referencedRelation: "trivias"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       user_balances: {
         Row: {
-          available_balance: number
+          balance: number
+          created_at: string
           id: string
-          total_winnings: number
+          total_deposited: number
+          total_pnl: number
           total_withdrawn: number
           updated_at: string
           user_id: string
         }
         Insert: {
-          available_balance?: number
-          id?: string
-          total_winnings?: number
-          total_withdrawn?: number
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          available_balance?: number
-          id?: string
-          total_winnings?: number
-          total_withdrawn?: number
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      user_battle_tokens: {
-        Row: {
-          balance: number
-          created_at: string
-          id: string
-          total_purchased: number
-          total_spent: number
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
           balance?: number
           created_at?: string
           id?: string
-          total_purchased?: number
-          total_spent?: number
+          total_deposited?: number
+          total_pnl?: number
+          total_withdrawn?: number
           updated_at?: string
           user_id: string
         }
@@ -299,38 +352,9 @@ export type Database = {
           balance?: number
           created_at?: string
           id?: string
-          total_purchased?: number
-          total_spent?: number
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
-      user_progress: {
-        Row: {
-          detection_progress: number
-          emotional_regulation: number
-          id: string
-          neural_pathway_strength: number
-          success_pattern_rewiring: number
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          detection_progress?: number
-          emotional_regulation?: number
-          id?: string
-          neural_pathway_strength?: number
-          success_pattern_rewiring?: number
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          detection_progress?: number
-          emotional_regulation?: number
-          id?: string
-          neural_pathway_strength?: number
-          success_pattern_rewiring?: number
+          total_deposited?: number
+          total_pnl?: number
+          total_withdrawn?: number
           updated_at?: string
           user_id?: string
         }
@@ -354,39 +378,6 @@ export type Database = {
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
           user_id?: string
-        }
-        Relationships: []
-      }
-      withdrawals: {
-        Row: {
-          amount: number
-          completed_at: string | null
-          created_at: string
-          id: string
-          status: string
-          transaction_hash: string | null
-          user_id: string
-          wallet_address: string
-        }
-        Insert: {
-          amount: number
-          completed_at?: string | null
-          created_at?: string
-          id?: string
-          status?: string
-          transaction_hash?: string | null
-          user_id: string
-          wallet_address: string
-        }
-        Update: {
-          amount?: number
-          completed_at?: string | null
-          created_at?: string
-          id?: string
-          status?: string
-          transaction_hash?: string | null
-          user_id?: string
-          wallet_address?: string
         }
         Relationships: []
       }
