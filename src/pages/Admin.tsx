@@ -1,357 +1,303 @@
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { supabase } from '@/integrations/supabase/client';
-import { toast } from '@/hooks/use-toast';
-import { Crown, Plus, Trash2 } from 'lucide-react';
-import { format } from 'date-fns';
+import React, { useState, useEffect } from "react";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
+import { Link } from "react-router-dom";
+import { ArrowLeft, Plus } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
-interface Trivia {
+interface Market {
   id: string;
   title: string;
   description: string;
-  correct_answer: string;
+  question: string;
+  category_id: string;
+  creator_id: string;
+  end_date: string;
   status: string;
-  ends_at: string;
-  support_pool: number;
-  oppose_pool: number;
-  support_count: number;
-  oppose_count: number;
   created_at: string;
 }
 
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+}
+
 const Admin = () => {
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [markets, setMarkets] = useState<Market[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [trivias, setTrivias] = useState<Trivia[]>([]);
-  const [showCreateForm, setShowCreateForm] = useState(false);
-  
-  // Form state
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
-  const [correctAnswer, setCorrectAnswer] = useState('');
-  const [endsAt, setEndsAt] = useState('');
-  const [minBattleTokens, setMinBattleTokens] = useState(1);
+  const [formData, setFormData] = useState({
+    title: "",
+    description: "",
+    question: "",
+    category_id: "",
+    end_date: "",
+  });
 
   useEffect(() => {
-    checkAdminStatus();
-    loadTrivias();
+    checkAuth();
+    loadData();
   }, []);
 
-  const checkAdminStatus = async () => {
+  const checkAuth = async () => {
+    const { data: { user } } = await supabase.auth.getUser();
+    setUser(user);
+    if (!user) {
+      toast.error("Please sign in to access admin panel");
+    }
+  };
+
+  const loadData = async () => {
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) {
-        setLoading(false);
-        return;
-      }
+      // Load categories
+      const { data: categoriesData, error: categoriesError } = await supabase
+        .from("categories")
+        .select("*")
+        .order("name");
 
-      const { data, error } = await supabase
-        .from('user_roles')
-        .select('role')
-        .eq('user_id', user.id)
-        .eq('role', 'admin')
-        .maybeSingle();
+      if (categoriesError) throw categoriesError;
+      setCategories(categoriesData || []);
 
-      if (error) {
-        console.error('Error checking admin status:', error);
-      }
+      // Load markets
+      const { data: marketsData, error: marketsError } = await supabase
+        .from("markets")
+        .select("*")
+        .order("created_at", { ascending: false });
 
-      setIsAdmin(!!data);
+      if (marketsError) throw marketsError;
+      setMarkets(marketsData || []);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error loading data:", error);
+      toast.error("Failed to load admin data");
     } finally {
       setLoading(false);
     }
   };
 
-  const loadTrivias = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('trivias')
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) throw error;
-      setTrivias(data || []);
-    } catch (error) {
-      console.error('Error loading trivias:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load trivias",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const handleCreateTrivia = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    if (!user) return;
 
     try {
-      const { error } = await supabase
-        .from('trivias')
+      const { data: market, error: marketError } = await supabase
+        .from("markets")
         .insert({
-          title,
-          description,
-          correct_answer: correctAnswer,
-          ends_at: new Date(endsAt).toISOString(),
-          min_battle_tokens: minBattleTokens,
-          status: 'active'
-        });
+          title: formData.title,
+          description: formData.description,
+          question: formData.question,
+          category_id: formData.category_id,
+          creator_id: user.id,
+          end_date: formData.end_date,
+          status: "active",
+        })
+        .select()
+        .single();
 
-      if (error) throw error;
+      if (marketError) throw marketError;
 
-      toast({
-        title: "Success",
-        description: "Trivia created successfully!",
+      // Create Yes/No outcomes
+      const { error: outcomesError } = await supabase
+        .from("market_outcomes")
+        .insert([
+          {
+            market_id: market.id,
+            name: "Yes",
+            slug: "yes",
+            current_price: 0.5,
+          },
+          {
+            market_id: market.id,
+            name: "No",
+            slug: "no",
+            current_price: 0.5,
+          },
+        ]);
+
+      if (outcomesError) throw outcomesError;
+
+      toast.success("Market created successfully!");
+      setFormData({
+        title: "",
+        description: "",
+        question: "",
+        category_id: "",
+        end_date: "",
       });
-
-      // Reset form
-      setTitle('');
-      setDescription('');
-      setCorrectAnswer('');
-      setEndsAt('');
-      setMinBattleTokens(1);
-      setShowCreateForm(false);
-      
-      // Reload trivias
-      loadTrivias();
-    } catch (error: any) {
-      console.error('Error creating trivia:', error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to create trivia",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
+      loadData();
+    } catch (error) {
+      console.error("Error creating market:", error);
+      toast.error("Failed to create market");
     }
   };
 
-  const handleDeleteTrivia = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this trivia?')) return;
-
-    try {
-      const { error } = await supabase
-        .from('trivias')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-
-      toast({
-        title: "Success",
-        description: "Trivia deleted successfully!",
-      });
-
-      loadTrivias();
-    } catch (error: any) {
-      console.error('Error deleting trivia:', error);
-      toast({
-        title: "Error",
-        description: error.message || "Failed to delete trivia",
-        variant: "destructive",
-      });
-    }
-  };
-
-  if (loading) {
+  if (!user) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <Crown className="h-8 w-8 text-primary mx-auto mb-4 animate-spin" />
-          <p>Loading...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <Card className="w-96">
+          <CardHeader>
+            <CardTitle>Access Denied</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground mb-4">
+              Please sign in to access the admin panel.
+            </p>
+            <Link to="/auth">
+              <Button className="w-full">Sign In</Button>
+            </Link>
+          </CardContent>
+        </Card>
       </div>
     );
   }
 
-  if (!isAdmin) {
+  if (loading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center p-4">
-        <Card className="w-full max-w-md">
-          <CardHeader className="text-center">
-            <Crown className="h-8 w-8 text-destructive mx-auto mb-2" />
-            <CardTitle>Access Denied</CardTitle>
-            <CardDescription>
-              You don't have admin privileges to access this page.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Button 
-              onClick={() => window.location.href = '/'}
-              className="w-full"
-            >
-              Back to Home
-            </Button>
-          </CardContent>
-        </Card>
+      <div className="min-h-screen flex items-center justify-center">
+        <div>Loading...</div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background p-4">
-      <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <Crown className="h-6 w-6 text-primary" />
-              <h1 className="text-3xl font-bold">Admin Dashboard</h1>
-            </div>
-            <p className="text-muted-foreground">Manage trivias and battle settings</p>
-          </div>
-          <Button onClick={() => window.location.href = '/'} variant="outline">
-            Back to Home
-          </Button>
+    <div className="min-h-screen bg-background">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex items-center gap-4 mb-8">
+          <Link to="/">
+            <Button variant="outline" size="sm">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Markets
+            </Button>
+          </Link>
+          <h1 className="text-3xl font-bold">Admin Panel</h1>
         </div>
 
-        {/* Create Trivia Section */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>Trivia Management</CardTitle>
-                <CardDescription>Create and manage trivia battles</CardDescription>
-              </div>
-              <Button 
-                onClick={() => setShowCreateForm(!showCreateForm)}
-                className="flex items-center gap-2"
-              >
-                <Plus className="h-4 w-4" />
-                Create Trivia
-              </Button>
-            </div>
-          </CardHeader>
-          {showCreateForm && (
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Create Market Form */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Plus className="h-5 w-5" />
+                Create New Market
+              </CardTitle>
+            </CardHeader>
             <CardContent>
-              <form onSubmit={handleCreateTrivia} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="title">Title</Label>
-                    <Input
-                      id="title"
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                      placeholder="Enter trivia title"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="ends-at">End Date & Time</Label>
-                    <Input
-                      id="ends-at"
-                      type="datetime-local"
-                      value={endsAt}
-                      onChange={(e) => setEndsAt(e.target.value)}
-                      required
-                    />
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description</Label>
-                  <Textarea
-                    id="description"
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Enter trivia description"
+              <form onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="text-sm font-medium">Title</label>
+                  <Input
+                    value={formData.title}
+                    onChange={(e) =>
+                      setFormData({ ...formData, title: e.target.value })
+                    }
+                    placeholder="Market title"
                     required
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="correct-answer">Correct Answer</Label>
-                    <Select value={correctAnswer} onValueChange={setCorrectAnswer} required>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select correct answer" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="support">Support</SelectItem>
-                        <SelectItem value="oppose">Oppose</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="min-tokens">Minimum Battle Tokens</Label>
-                    <Input
-                      id="min-tokens"
-                      type="number"
-                      min="1"
-                      value={minBattleTokens}
-                      onChange={(e) => setMinBattleTokens(parseInt(e.target.value))}
-                      required
-                    />
-                  </div>
+                <div>
+                  <label className="text-sm font-medium">Description</label>
+                  <Textarea
+                    value={formData.description}
+                    onChange={(e) =>
+                      setFormData({ ...formData, description: e.target.value })
+                    }
+                    placeholder="Market description"
+                    required
+                  />
                 </div>
 
-                <div className="flex gap-2">
-                  <Button type="submit" disabled={loading}>
-                    {loading ? 'Creating...' : 'Create Trivia'}
-                  </Button>
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => setShowCreateForm(false)}
-                  >
-                    Cancel
-                  </Button>
+                <div>
+                  <label className="text-sm font-medium">Question</label>
+                  <Input
+                    value={formData.question}
+                    onChange={(e) =>
+                      setFormData({ ...formData, question: e.target.value })
+                    }
+                    placeholder="Yes/No question"
+                    required
+                  />
                 </div>
+
+                <div>
+                  <label className="text-sm font-medium">Category</label>
+                  <Select
+                    value={formData.category_id}
+                    onValueChange={(value) =>
+                      setFormData({ ...formData, category_id: value })
+                    }
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category.id} value={category.id}>
+                          {category.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                <div>
+                  <label className="text-sm font-medium">End Date</label>
+                  <Input
+                    type="datetime-local"
+                    value={formData.end_date}
+                    onChange={(e) =>
+                      setFormData({ ...formData, end_date: e.target.value })
+                    }
+                    required
+                  />
+                </div>
+
+                <Button type="submit" className="w-full">
+                  Create Market
+                </Button>
               </form>
             </CardContent>
-          )}
-        </Card>
+          </Card>
 
-        {/* Existing Trivias */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Existing Trivias ({trivias.length})</CardTitle>
-            <CardDescription>Manage your trivia battles</CardDescription>
-          </CardHeader>
-          <CardContent>
-            {trivias.length === 0 ? (
-              <p className="text-muted-foreground text-center py-8">
-                No trivias created yet. Create your first trivia battle!
-              </p>
-            ) : (
+          {/* Markets List */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Markets</CardTitle>
+            </CardHeader>
+            <CardContent>
               <div className="space-y-4">
-                {trivias.map((trivia) => (
-                  <div key={trivia.id} className="border rounded-lg p-4">
-                    <div className="flex items-start justify-between">
-                      <div className="space-y-2">
-                        <h3 className="font-semibold">{trivia.title}</h3>
-                        <p className="text-sm text-muted-foreground">{trivia.description}</p>
-                        <div className="flex flex-wrap gap-4 text-sm">
-                          <span>Status: <span className="font-medium">{trivia.status}</span></span>
-                          <span>Correct Answer: <span className="font-medium">{trivia.correct_answer}</span></span>
-                          <span>Ends: <span className="font-medium">{format(new Date(trivia.ends_at), 'PPp')}</span></span>
-                        </div>
-                        <div className="flex flex-wrap gap-4 text-sm">
-                          <span>Support Pool: <span className="font-medium">{trivia.support_pool} ({trivia.support_count} votes)</span></span>
-                          <span>Oppose Pool: <span className="font-medium">{trivia.oppose_pool} ({trivia.oppose_count} votes)</span></span>
-                        </div>
-                      </div>
-                      <Button
-                        variant="destructive"
-                        size="sm"
-                        onClick={() => handleDeleteTrivia(trivia.id)}
-                      >
-                        <Trash2 className="h-4 w-4" />
-                      </Button>
+                {markets.slice(0, 10).map((market) => (
+                  <div
+                    key={market.id}
+                    className="p-4 border rounded-lg space-y-2"
+                  >
+                    <h3 className="font-semibold">{market.title}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      {market.description}
+                    </p>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="px-2 py-1 bg-primary/10 rounded">
+                        {market.status}
+                      </span>
+                      <span>{new Date(market.end_date).toLocaleDateString()}</span>
                     </div>
                   </div>
                 ))}
               </div>
-            )}
-          </CardContent>
-        </Card>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
