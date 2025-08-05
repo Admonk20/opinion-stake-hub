@@ -8,6 +8,10 @@ import Index from "./pages/Index";
 import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import Leaderboard from "./pages/Leaderboard";
+import Portfolio from "./pages/Portfolio";
+import Profile from "./pages/Profile";
+import TradingHistory from "./pages/TradingHistory";
+import MarketDetail from "./pages/MarketDetail";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
@@ -32,6 +36,10 @@ function App() {
               <Route path="/auth" element={<Auth />} />
               <Route path="/admin" element={<Admin />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
+              <Route path="/portfolio" element={<Portfolio />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/trading-history" element={<TradingHistory />} />
+              <Route path="/market/:id" element={<MarketDetail />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </BrowserRouter>

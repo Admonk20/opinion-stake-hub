@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Clock, DollarSign } from "lucide-react";
 import { format } from "date-fns";
+import { Link } from "react-router-dom";
 
 interface Market {
   id: string;
@@ -97,8 +98,9 @@ export const MarketCard = ({ market, user }: MarketCardProps) => {
               className="w-full h-8 bg-green-600 hover:bg-green-700"
               size="sm"
               disabled={!user}
+              asChild
             >
-              Buy Yes
+              <Link to={`/market/${market.id}`}>Buy Yes</Link>
             </Button>
           </div>
           
@@ -112,8 +114,9 @@ export const MarketCard = ({ market, user }: MarketCardProps) => {
               className="w-full h-8 border-red-600 text-red-600 hover:bg-red-50"
               size="sm"
               disabled={!user}
+              asChild
             >
-              Buy No
+              <Link to={`/market/${market.id}`}>Buy No</Link>
             </Button>
           </div>
         </div>
