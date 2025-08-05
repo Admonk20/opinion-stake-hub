@@ -177,23 +177,6 @@ export const TradingInterface = ({ market, user, onTradeComplete }: TradingInter
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="space-y-4">
-          <RadioGroup value={tradeType} onValueChange={(value) => setTradeType(value as "buy" | "sell")} className="flex gap-6">
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="buy" id="buy" />
-              <Label htmlFor="buy" className="flex items-center gap-2 cursor-pointer">
-                <TrendingUp className="h-4 w-4" />
-                Buy
-              </Label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <RadioGroupItem value="sell" id="sell" />
-              <Label htmlFor="sell" className="flex items-center gap-2 cursor-pointer">
-                <TrendingDown className="h-4 w-4" />
-                Sell
-              </Label>
-            </div>
-          </RadioGroup>
-
           <div>
             <label className="text-sm font-medium">Select Outcome</label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
