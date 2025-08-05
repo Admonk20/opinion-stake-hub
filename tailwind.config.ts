@@ -160,6 +160,22 @@ export default {
 						filter: 'drop-shadow(0 0 5px hsl(var(--primary) / 0.3))',
 						transform: 'scale(1)'
 					}
+				},
+				'sweep-light': {
+					'0%': {
+						transform: 'translateX(-100%)',
+						opacity: '0'
+					},
+					'10%': {
+						opacity: '1'
+					},
+					'90%': {
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'translateX(100%)',
+						opacity: '0'
+					}
 				}
 			},
 			animation: {
@@ -168,7 +184,8 @@ export default {
 				'fade-in': 'fade-in 0.3s ease-out',
 				'pulse-glow': 'pulse-glow 2s ease-in-out infinite',
 				'loading-dots': 'loading-dots 1.4s ease-in-out infinite both',
-				'glow-wave': 'glow-wave 3s ease-in-out infinite'
+				'glow-wave': 'glow-wave 3s ease-in-out infinite',
+				'sweep-light': 'sweep-light 3s ease-in-out infinite'
 			}
 		}
 	},

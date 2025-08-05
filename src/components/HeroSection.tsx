@@ -8,8 +8,9 @@ export const HeroSection = () => {
       <div className="relative z-10">
         <div className="max-w-4xl">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 relative">
-            <span className="inline-block animate-glow-wave bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            <span className="relative inline-block text-hero-sweep bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               Predict the Future of Africa
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/60 to-transparent animate-sweep-light opacity-80"></div>
             </span>
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
