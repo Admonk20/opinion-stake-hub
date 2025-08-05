@@ -5,6 +5,7 @@ import { Navbar } from "@/components/Navbar";
 import { HeroSection } from "@/components/HeroSection";
 import { EnhancedSearch } from "@/components/EnhancedSearch";
 import { MarketGrid } from "@/components/MarketGrid";
+import { Footer } from "@/components/Footer";
 import { useRealtimeUpdates } from "@/hooks/useRealtimeUpdates";
 import { toast } from "sonner";
 
@@ -139,6 +140,8 @@ const Index = () => {
           user={user}
         />
       </main>
+      
+      <Footer />
     </div>
   );
 };
