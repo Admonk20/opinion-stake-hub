@@ -158,12 +158,12 @@ export const MobileNavbar = ({
               </> : <>
                 {/* Desktop Auth Buttons */}
                 <div className="hidden md:flex items-center space-x-2">
-                  <Link to="/auth">
+                  <Link to="/sign-up">
                     <Button variant="outline" size="sm">
                       Log In
                     </Button>
                   </Link>
-                  <Link to="/auth">
+                  <Link to="/sign-up">
                     <Button size="sm">
                       Sign Up
                     </Button>
@@ -184,12 +184,12 @@ export const MobileNavbar = ({
                         
                         <div className="border-t pt-4 space-y-2">
                           <Button asChild className="w-full">
-                            <Link to="/auth" onClick={() => setIsOpen(false)}>
+                            <Link to="/sign-up" onClick={() => setIsOpen(false)}>
                               Sign Up
                             </Link>
                           </Button>
                           <Button variant="outline" asChild className="w-full">
-                            <Link to="/auth" onClick={() => setIsOpen(false)}>
+                            <Link to="/sign-up" onClick={() => setIsOpen(false)}>
                               Log In
                             </Link>
                           </Button>

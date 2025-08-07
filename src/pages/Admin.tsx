@@ -153,7 +153,7 @@ const Admin = () => {
             <p className="text-muted-foreground mb-4">
               Please sign in to access the admin panel.
             </p>
-            <Link to="/auth">
+            <Link to="/sign-up">
               <Button className="w-full">Sign In</Button>
             </Link>
           </CardContent>

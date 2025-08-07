@@ -161,7 +161,7 @@ const TradingHistory = () => {
             <p className="text-muted-foreground mb-4">
               Please sign in to view your trading history.
             </p>
-            <Link to="/auth">
+            <Link to="/sign-up">
               <Button className="w-full">Sign In</Button>
             </Link>
           </CardContent>
