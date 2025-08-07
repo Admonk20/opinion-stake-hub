@@ -7,7 +7,7 @@ export const HeroSection = () => {
     <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 rounded-3xl p-8 mb-12">
       <div className="relative z-10">
         <div className="max-w-4xl">
-          <h1 className="text-4xl md:text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
+          <h1 className="text-3xl md:text-5xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
             Predict the future of Africa on the blockchain
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
