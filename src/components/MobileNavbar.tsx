@@ -51,24 +51,26 @@ export const MobileNavbar = ({
             <span className="text-xl font-bold">MemeCoin Battles</span>
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">
-              Markets
-            </Link>
-            <Link to="/leaderboard" className="text-sm font-medium transition-colors hover:text-primary">
-              Leaderboard
-            </Link>
-            <Link to="/portfolio" className="text-sm font-medium transition-colors hover:text-primary">
-              Portfolio
-            </Link>
-            <a href="#" className="text-sm font-medium transition-colors hover:text-primary">
-              How it works
-            </a>
-            <a href="#" className="text-sm font-medium transition-colors hover:text-primary">
-              About
-            </a>
-          </div>
+          {/* Desktop Navigation - Only show when not signed in */}
+          {!user && (
+            <div className="hidden md:flex items-center space-x-6">
+              <Link to="/" className="text-sm font-medium transition-colors hover:text-primary">
+                Markets
+              </Link>
+              <Link to="/leaderboard" className="text-sm font-medium transition-colors hover:text-primary">
+                Leaderboard
+              </Link>
+              <Link to="/portfolio" className="text-sm font-medium transition-colors hover:text-primary">
+                Portfolio
+              </Link>
+              <a href="#" className="text-sm font-medium transition-colors hover:text-primary">
+                How it works
+              </a>
+              <a href="#" className="text-sm font-medium transition-colors hover:text-primary">
+                About
+              </a>
+            </div>
+          )}
 
           {/* User Actions */}
           <div className="flex items-center space-x-2">
