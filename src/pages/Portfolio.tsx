@@ -17,6 +17,8 @@ import {
   History,
   PieChart
 } from "lucide-react";
+import { formatTZEE, CURRENCY } from "@/lib/currency";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
 interface Position {
   id: string;
@@ -230,12 +232,7 @@ const Portfolio = () => {
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => formatTZEE(amount);
 
   const calculatePositionValue = (position: Position) => {
     return position.shares * position.market_outcome.current_price;

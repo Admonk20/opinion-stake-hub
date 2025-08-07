@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { TrendingUp, TrendingDown, DollarSign, Percent } from "lucide-react";
+import { formatTZEE, CURRENCY } from "@/lib/currency";
 
 interface TradingInterfaceProps {
   market: any;
@@ -21,12 +22,7 @@ export const TradingInterface = ({ market, user, onTradeComplete }: TradingInter
   const [tradeType, setTradeType] = useState<"buy" | "sell">("buy");
   const [loading, setLoading] = useState(false);
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => formatTZEE(amount);
 
   const formatPercentage = (value: number) => {
     return `${(value * 100).toFixed(1)}%`;
