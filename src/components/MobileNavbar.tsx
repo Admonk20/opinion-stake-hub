@@ -84,6 +84,12 @@ export const MobileNavbar = ({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end" className="bg-popover">
                       <DropdownMenuItem asChild>
+                        <Link to="/">
+                          <TrendingUp className="h-4 w-4 mr-2" />
+                          Markets
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
                         <Link to="/profile">
                           <User className="h-4 w-4 mr-2" />
                           Profile
