@@ -1,1 +1,4 @@
 project_id = "cjpomxvtvsitoylqvzvr"
+
+[functions.verify-deposit]
+verify_jwt = true

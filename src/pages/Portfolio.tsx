@@ -18,6 +18,7 @@ import {
   PieChart
 } from "lucide-react";
 import { formatTZEE, CURRENCY } from "@/lib/currency";
+import { DepositVerifier } from "@/components/DepositVerifier";
 
 
 interface Position {
@@ -474,6 +475,14 @@ const Portfolio = () => {
                   </Button>
                 </CardContent>
               </Card>
+            </div>
+
+            {/* On-chain TZEE deposit verifier */}
+            <div className="mt-6">
+              {/* ... keep existing code (other wallet helpers) */}
+              {/* New component to verify on-chain deposits */}
+              {/* We refresh data on success */}
+              <DepositVerifier onVerified={() => loadPortfolioData(user.id)} />
             </div>
           </TabsContent>
 
