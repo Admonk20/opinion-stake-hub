@@ -18,6 +18,7 @@ import {
   Clock,
   Tag
 } from "lucide-react";
+import { formatTZEE } from "@/lib/currency";
 
 interface Market {
   id: string;
@@ -118,12 +119,7 @@ const MarketDetail = () => {
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => formatTZEE(amount);
 
   const formatPercentage = (value: number) => {
     return `${(value * 100).toFixed(1)}%`;

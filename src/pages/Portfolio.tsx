@@ -18,7 +18,7 @@ import {
   PieChart
 } from "lucide-react";
 import { formatTZEE, CURRENCY } from "@/lib/currency";
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
+
 
 interface Position {
   id: string;

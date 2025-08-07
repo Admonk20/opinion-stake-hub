@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Trophy, Medal, Award } from "lucide-react";
+import { formatTZEE } from "@/lib/currency";
 
 interface Profile {
   display_name?: string;
@@ -50,12 +51,7 @@ const Leaderboard = () => {
     return <span className="text-lg font-bold">#{rank}</span>;
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => formatTZEE(amount);
 
   const getDisplayName = (entry: LeaderboardEntry) => {
     return `User ${entry.user_id.slice(0, 8)}...`;

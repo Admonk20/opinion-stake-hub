@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider";
 import { Search, Filter, Calendar as CalendarIcon, DollarSign, X } from "lucide-react";
 import { format } from "date-fns";
+import { formatTZEE } from "@/lib/currency";
 
 interface EnhancedSearchProps {
   searchQuery: string;
@@ -171,7 +172,7 @@ export const EnhancedSearch = ({
               {filter === 'volume' && (
                 <>
                   <DollarSign className="h-3 w-3" />
-                  Min Volume: ${volumeRange[0]}
+                  Min Volume: {formatTZEE(volumeRange[0])}
                 </>
               )}
               <button
@@ -244,7 +245,7 @@ export const EnhancedSearch = ({
             {/* Volume Filter */}
             <div className="space-y-2">
               <label className="text-sm font-medium">
-                Minimum Volume: ${volumeRange[0].toLocaleString()}
+                Minimum Volume: {formatTZEE(volumeRange[0])}
               </label>
               <Slider
                 value={volumeRange}
@@ -254,8 +255,8 @@ export const EnhancedSearch = ({
                 className="w-full"
               />
               <div className="flex justify-between text-xs text-muted-foreground">
-                <span>$0</span>
-                <span>$100,000+</span>
+                <span>{formatTZEE(0)}</span>
+                <span>{`${formatTZEE(100000)}+`}</span>
               </div>
             </div>
           </div>
@@ -289,14 +290,14 @@ export const EnhancedSearch = ({
                 size="sm"
                 onClick={() => handleVolumeRangeChange([10000])}
               >
-                High Volume ($10k+)
+                High Volume ({`${formatTZEE(10000)}+`})
               </Button>
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => handleVolumeRangeChange([50000])}
               >
-                Very High Volume ($50k+)
+                Very High Volume ({`${formatTZEE(50000)}+`})
               </Button>
             </div>
           </div>

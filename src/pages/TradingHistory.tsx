@@ -15,6 +15,7 @@ import {
   Calendar,
   DollarSign
 } from "lucide-react";
+import { formatTZEE } from "@/lib/currency";
 
 interface Trade {
   id: string;
@@ -113,12 +114,7 @@ const TradingHistory = () => {
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => formatTZEE(amount);
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {

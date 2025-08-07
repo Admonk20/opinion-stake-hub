@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { TrendingUp, Clock, DollarSign } from "lucide-react";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
+import { formatTZEE } from "@/lib/currency";
 
 interface Market {
   id: string;
@@ -39,14 +40,7 @@ export const MarketCard = ({ market, user }: MarketCardProps) => {
   const yesPrice = yesOutcome?.current_price || 0.5;
   const noPrice = noOutcome?.current_price || 0.5;
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    }).format(amount);
-  };
+  const formatCurrency = (amount: number) => formatTZEE(amount);
 
   const formatPercentage = (price: number) => {
     return `${Math.round(price * 100)}%`;
