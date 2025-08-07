@@ -96,6 +96,12 @@ export const MobileNavbar = ({
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem asChild>
+                        <Link to="/leaderboard">
+                          <Crown className="h-4 w-4 mr-2" />
+                          Leaderboard
+                        </Link>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem asChild>
                         <Link to="/trading-history">
                           <TrendingUp className="h-4 w-4 mr-2" />
                           Trading History
