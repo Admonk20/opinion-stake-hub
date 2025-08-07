@@ -8,7 +8,7 @@ export const HeroSection = () => {
       <div className="relative z-10">
         <div className="max-w-4xl">
           <h1 className="text-3xl md:text-5xl font-bold whitespace-nowrap bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
-            Predict the future of Africa on the blockchain
+            Predict the future of Africa on the Blockchain
           </h1>
           <p className="text-xl text-muted-foreground mb-8 max-w-2xl">
             Trade on outcomes of African politics, economy, sports, and culture. 
