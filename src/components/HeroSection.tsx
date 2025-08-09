@@ -19,6 +19,17 @@ export const HeroSection = () => {
               Start Trading
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
+            <Button variant="outline" size="lg" className="group" asChild>
+              <a
+                href="https://tzeecoin.io"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Join the Tzeecoin presale"
+              >
+                Join Presale
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </a>
+            </Button>
             <Button variant="outline" size="lg">
               <TrendingUp className="mr-2 h-4 w-4" />
               View Markets

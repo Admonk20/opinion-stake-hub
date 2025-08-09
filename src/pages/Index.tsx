@@ -6,6 +6,7 @@ import { HeroSection } from "@/components/HeroSection";
 import { EnhancedSearch } from "@/components/EnhancedSearch";
 import { MarketGrid } from "@/components/MarketGrid";
 import { Footer } from "@/components/Footer";
+import { AnnouncementBar } from "@/components/AnnouncementBar";
 import { useRealtimeUpdates } from "@/hooks/useRealtimeUpdates";
 import { toast } from "sonner";
 
@@ -119,6 +120,10 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar user={user} />
       <main className="container mx-auto px-4 py-8">
+        <AnnouncementBar
+          presaleUrl="https://tzeecoin.io"
+          contractUrl="https://bscscan.com/address/0x956f3ce447be42b35ddc18fd2b60c04720c4be5f#code"
+        />
         <HeroSection />
         
         <div className="mb-8">
