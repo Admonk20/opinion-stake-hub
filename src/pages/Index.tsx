@@ -122,7 +122,6 @@ const Index = () => {
       <main className="container mx-auto px-4 py-8">
         <AnnouncementBar
           presaleUrl="https://tzeecoin.io"
-          contractUrl="https://bscscan.com/address/0x956f3ce447be42b35ddc18fd2b60c04720c4be5f#code"
         />
         <HeroSection />
         

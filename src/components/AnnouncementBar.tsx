@@ -4,7 +4,7 @@ import { ExternalLink } from "lucide-react";
 
 interface AnnouncementBarProps {
   presaleUrl: string;
-  contractUrl: string;
+  contractUrl?: string;
 }
 
 export const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ presaleUrl, contractUrl }) => {
@@ -26,17 +26,19 @@ export const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ presaleUrl, co
               <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
             </a>
           </Button>
-          <Button variant="outline" size="sm" asChild>
-            <a
-              href={contractUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="View BSC contract on BscScan"
-            >
-              View BSC Contract
-              <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
-            </a>
-          </Button>
+          {contractUrl && (
+            <Button variant="outline" size="sm" asChild>
+              <a
+                href={contractUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="View token contract"
+              >
+                View Token Contract
+                <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
+              </a>
+            </Button>
+          )}
         </div>
       </div>
     </section>
