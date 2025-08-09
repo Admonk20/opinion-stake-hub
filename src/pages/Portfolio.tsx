@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { 
@@ -59,6 +60,9 @@ const Portfolio = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [depositAmount, setDepositAmount] = useState("");
   const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+  const [chain, setChain] = useState("BSC");
+  const [profile, setProfile] = useState<{ username?: string | null; display_name?: string | null } | null>(null);
   const [loading, setLoading] = useState(true);
   const [actionLoading, setActionLoading] = useState(false);
 
@@ -66,14 +70,15 @@ const Portfolio = () => {
     checkAuth();
   }, []);
 
-  const checkAuth = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    setUser(user);
-    if (user) {
-      await loadPortfolioData(user.id);
-    }
-    setLoading(false);
-  };
+const checkAuth = async () => {
+  const { data: { user } } = await supabase.auth.getUser();
+  setUser(user);
+  if (user) {
+    await loadUserProfile(user.id);
+    await loadPortfolioData(user.id);
+  }
+  setLoading(false);
+};
 
   const loadPortfolioData = async (userId: string) => {
     try {
@@ -127,7 +132,20 @@ const Portfolio = () => {
       toast.error("Failed to load portfolio data");
     }
   };
-
+  
+  const loadUserProfile = async (userId: string) => {
+    try {
+      const { data } = await supabase
+        .from("profiles")
+        .select("username, display_name")
+        .eq("user_id", userId)
+        .single();
+      if (data) setProfile(data);
+    } catch (e) {
+      console.error("Error loading profile:", e);
+    }
+  };
+  
   const handleDeposit = async () => {
     if (!user || !depositAmount || parseFloat(depositAmount) <= 0) {
       toast.error("Please enter a valid deposit amount");
@@ -232,7 +250,60 @@ const Portfolio = () => {
       setActionLoading(false);
     }
   };
+  
+  const handleWithdrawRequest = async () => {
+    if (!user || !withdrawAmount || parseFloat(withdrawAmount) <= 0) {
+      toast.error("Please enter a valid withdrawal amount");
+      return;
+    }
 
+    const amount = parseFloat(withdrawAmount);
+    const currentBalance = userBalance?.balance || 0;
+
+    if (amount > currentBalance) {
+      toast.error("Insufficient balance");
+      return;
+    }
+
+    if (!walletAddress) {
+      toast.error("Please enter your BNB wallet address");
+      return;
+    }
+
+    setActionLoading(true);
+    try {
+      const username =
+        (profile?.username || profile?.display_name || (user as any)?.email || "unknown") ?? "unknown";
+
+      const { error: insertError } = await supabase.from("withdrawal_requests").insert({
+        user_id: user.id,
+        username,
+        wallet_address: walletAddress,
+        chain,
+        amount,
+      });
+      if (insertError) throw insertError;
+
+      try {
+        await supabase.functions.invoke("send-withdrawal", {
+          body: { user_id: user.id, username, wallet_address: walletAddress, chain, amount },
+        });
+      } catch (e) {
+        console.warn("Email notification failed (request saved):", e);
+      }
+
+      toast.success("Withdrawal request submitted. Payouts are processed every Friday.");
+      setWithdrawAmount("");
+      setWalletAddress("");
+      setChain("BSC");
+    } catch (error) {
+      console.error("Withdraw request error:", error);
+      toast.error("Failed to submit withdrawal request");
+    } finally {
+      setActionLoading(false);
+    }
+  };
+  
   const formatCurrency = (amount: number) => formatTZEE(amount);
 
   const calculatePositionValue = (position: Position) => {
@@ -420,16 +491,19 @@ const Portfolio = () => {
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium">Amount</label>
+                    <label className="text-sm font-medium">Amount ({CURRENCY.symbol})</label>
                     <Input
                       type="number"
                       min="1"
                       step="0.01"
                       value={depositAmount}
                       onChange={(e) => setDepositAmount(e.target.value)}
-                      placeholder="Enter amount to deposit"
+                      placeholder={`Enter amount to deposit in ${CURRENCY.symbol}`}
                       className="mt-1"
                     />
+                    <p className="text-xs text-muted-foreground mt-1">
+                      ≈ {(parseFloat(depositAmount || "0") || 0).toLocaleString()} USDT • 1 {CURRENCY.symbol} = 1 USDT
+                    </p>
                   </div>
                   <Button 
                     onClick={handleDeposit}
@@ -449,8 +523,11 @@ const Portfolio = () => {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Manual cashouts weekly — every Friday is payday. Withdrawals are processed manually during presale.
+                  </p>
                   <div>
-                    <label className="text-sm font-medium">Amount</label>
+                    <label className="text-sm font-medium">Amount ({CURRENCY.symbol})</label>
                     <Input
                       type="number"
                       min="1"
@@ -458,20 +535,46 @@ const Portfolio = () => {
                       max={userBalance?.balance || 0}
                       value={withdrawAmount}
                       onChange={(e) => setWithdrawAmount(e.target.value)}
-                      placeholder="Enter amount to withdraw"
+                      placeholder={`Enter amount to withdraw in ${CURRENCY.symbol}`}
                       className="mt-1"
                     />
                     <p className="text-xs text-muted-foreground mt-1">
-                      Available: {formatCurrency(userBalance?.balance || 0)}
+                      Available: {formatCurrency(userBalance?.balance || 0)} • ≈ {(parseFloat(withdrawAmount || "0") || 0).toLocaleString()} USDT
                     </p>
                   </div>
+                  <div>
+                    <label className="text-sm font-medium">BNB Wallet Address (BSC)</label>
+                    <Input
+                      type="text"
+                      value={walletAddress}
+                      onChange={(e) => setWalletAddress(e.target.value)}
+                      placeholder="Enter your BNB (BSC) wallet address"
+                      className="mt-1"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium">Wallet Chain</label>
+                    <Select value={chain} onValueChange={setChain}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder="Select chain" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="BSC">BSC (BNB Chain)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                   <Button 
-                    onClick={handleWithdraw}
-                    disabled={actionLoading || !withdrawAmount || parseFloat(withdrawAmount) > (userBalance?.balance || 0)}
+                    onClick={handleWithdrawRequest}
+                    disabled={
+                      actionLoading ||
+                      !withdrawAmount ||
+                      parseFloat(withdrawAmount) > (userBalance?.balance || 0) ||
+                      !walletAddress
+                    }
                     variant="outline"
                     className="w-full"
                   >
-                    {actionLoading ? "Processing..." : "Withdraw"}
+                    {actionLoading ? "Submitting..." : "Request Withdrawal"}
                   </Button>
                 </CardContent>
               </Card>

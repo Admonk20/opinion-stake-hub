@@ -2,3 +2,6 @@ project_id = "cjpomxvtvsitoylqvzvr"
 
 [functions.verify-deposit]
 verify_jwt = true
+
+[functions.send-withdrawal]
+verify_jwt = true

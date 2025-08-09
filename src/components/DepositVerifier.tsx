@@ -118,6 +118,9 @@ export function DepositVerifier({ onVerified }: { onVerified?: () => void }) {
               {loading ? "Verifying..." : "Verify"}
             </Button>
           </div>
+          <p className="text-xs text-muted-foreground">
+            ≈ {(parseFloat(amount || "0") || 0).toLocaleString()} USDT • 1 {CURRENCY.symbol} = 1 USDT
+          </p>
         </div>
       </CardContent>
     </Card>
