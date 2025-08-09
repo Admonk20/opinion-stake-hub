@@ -1,4 +1,4 @@
-import { Heart } from "lucide-react";
+
 
 export const Footer = () => {
   return (
@@ -57,10 +57,10 @@ export const Footer = () => {
         
         <div className="border-t border-border mt-8 pt-6 flex flex-col sm:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            © 2024 Memecoin Battles. All rights reserved.
+            © 2025 Memecoin Battles. All rights reserved.
           </p>
           <div className="flex items-center gap-1 text-sm text-muted-foreground mt-2 sm:mt-0">
-            Made with <Heart className="h-4 w-4 text-red-500" /> by the community
+            Made with ❤️ by Braandex
           </div>
         </div>
       </div>
