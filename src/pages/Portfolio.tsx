@@ -275,7 +275,7 @@ const checkAuth = async () => {
       const username =
         (profile?.username || profile?.display_name || (user as any)?.email || "unknown") ?? "unknown";
 
-      const { error: insertError } = await supabase.from("withdrawal_requests").insert({
+      const { error: insertError } = await supabase.from("withdrawal_requests" as any).insert({
         user_id: user.id,
         username,
         wallet_address: walletAddress,
