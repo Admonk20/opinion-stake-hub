@@ -5,9 +5,9 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-// Constants
-const TOKEN_ADDRESS = '0x1601C48F1178F1F9A9b0Be5f5bD7bb20CfD157F3'.toLowerCase()
-const DECIMALS = 18
+// Constants (read from secrets if provided)
+const TOKEN_ADDRESS = (Deno.env.get('TOKEN_ADDRESS') ?? '0x956f3ce447be42b35ddc18fd2b60c04720c4be5f').toLowerCase()
+const DECIMALS = Number(Deno.env.get('TOKEN_DECIMALS') ?? 18)
 const TRANSFER_TOPIC = '0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef' // keccak256("Transfer(address,address,uint256)")
 
 // Helpers
@@ -169,7 +169,7 @@ export default async function handler(req: Request): Promise<Response> {
           user_id: user.id,
           amount: amountNum,
           type: 'deposit',
-          description: `On-chain deposit TZEE via BSC. Tx: ${d.txHash}`,
+          description: `On-chain deposit via BSC. Tx: ${d.txHash}`,
           status: 'completed',
         })
         if (!txErr) {
