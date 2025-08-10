@@ -95,7 +95,7 @@ export const EnhancedSearch = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 animate-fade-in">
       {/* Main Search Bar */}
       <div className="flex flex-col md:flex-row gap-4">
         <div className="relative flex-1">

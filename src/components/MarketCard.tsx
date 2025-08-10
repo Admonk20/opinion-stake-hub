@@ -47,7 +47,7 @@ export const MarketCard = ({ market, user }: MarketCardProps) => {
   };
 
   return (
-    <Card className="group hover:shadow-lg transition-all duration-200 border-border/50 hover:border-border">
+    <Card className="group hover:shadow-lg transition-all duration-200 border-border/50 hover:border-border hover-scale animate-fade-in">
       <CardHeader className="space-y-3">
         {market.categories && (
           <Badge 

@@ -9,7 +9,7 @@ interface AnnouncementBarProps {
 
 export const AnnouncementBar: React.FC<AnnouncementBarProps> = ({ presaleUrl, contractUrl }) => {
   return (
-    <section aria-label="Presale announcement" className="mb-6">
+    <section aria-label="Presale announcement" className="mb-6 animate-fade-in">
       <div className="rounded-lg border bg-card text-card-foreground p-4 flex flex-col items-center md:flex-row md:items-center md:justify-between gap-4 text-center md:text-left">
         <p className="text-sm md:text-base text-center md:text-left">
           Manual cashouts weekly — every Friday is payday. Withdrawals are manual during presale.

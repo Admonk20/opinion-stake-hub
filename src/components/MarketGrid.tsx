@@ -32,7 +32,7 @@ interface MarketGridProps {
 export const MarketGrid = ({ markets, isLoading, user }: MarketGridProps) => {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
         {Array.from({ length: 6 }).map((_, i) => (
           <div key={i} className="space-y-4">
             <Skeleton className="h-48 w-full rounded-lg" />
@@ -48,7 +48,7 @@ export const MarketGrid = ({ markets, isLoading, user }: MarketGridProps) => {
 
   if (markets.length === 0) {
     return (
-      <div className="text-center py-12">
+      <div className="text-center py-12 animate-fade-in">
         <h3 className="text-lg font-semibold mb-2">No markets found</h3>
         <p className="text-muted-foreground">
           Try adjusting your filters or check back later for new markets.
@@ -58,7 +58,7 @@ export const MarketGrid = ({ markets, isLoading, user }: MarketGridProps) => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in">
       {markets.map((market) => (
         <MarketCard 
           key={market.id} 

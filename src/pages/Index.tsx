@@ -119,7 +119,7 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar user={user} />
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 animate-fade-in">
         <AnnouncementBar
           presaleUrl="https://tzeecoin.io"
         />

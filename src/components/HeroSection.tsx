@@ -4,7 +4,7 @@ import { ArrowRight, TrendingUp } from "lucide-react";
 
 export const HeroSection = () => {
   return (
-    <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 rounded-3xl p-8 mb-12">
+    <div className="relative overflow-hidden bg-gradient-to-br from-primary/10 via-background to-secondary/10 rounded-3xl p-8 mb-12 animate-enter">
       <div className="relative z-10">
         <div className="max-w-4xl mx-auto text-center md:text-left">
           <h1 className="text-3xl md:text-5xl font-bold text-primary mb-6">
@@ -15,11 +15,11 @@ export const HeroSection = () => {
             Put your knowledge to work and earn from accurate predictions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center sm:justify-start">
-            <Button size="lg" className="group">
+            <Button size="lg" className="group hover-scale">
               Start Trading
               <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
             </Button>
-            <Button variant="outline" size="lg" className="group" asChild>
+            <Button variant="outline" size="lg" className="group hover-scale" asChild>
               <a
                 href="https://tzeecoin.io"
                 target="_blank"
@@ -30,7 +30,7 @@ export const HeroSection = () => {
                 <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
               </a>
             </Button>
-            <Button variant="outline" size="lg">
+            <Button variant="outline" size="lg" className="hover-scale">
               <TrendingUp className="mr-2 h-4 w-4" />
               View Markets
             </Button>
