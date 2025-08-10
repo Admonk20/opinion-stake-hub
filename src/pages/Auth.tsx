@@ -110,10 +110,10 @@ const Auth = () => {
         <div className="text-center mb-8">
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
             <Crown className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold">AfricaMarket</span>
+            <span className="text-2xl font-bold">Memecoin Battles</span>
           </Link>
           <h1 className="text-3xl font-bold mb-2">
-            {isSignUp ? "Join AfricaMarket" : "Welcome Back"}
+            {isSignUp ? "Join Memecoin Battles" : "Welcome Back"}
           </h1>
           <p className="text-muted-foreground">
             {isSignUp 
@@ -218,7 +218,7 @@ const Auth = () => {
         {/* Features */}
         <div className="mt-8 grid grid-cols-1 gap-4">
           <div className="text-center space-y-4">
-            <h3 className="font-semibold text-lg">Why Join AfricaMarket?</h3>
+            <h3 className="font-semibold text-lg">Why Join Memecoin Battles?</h3>
             <div className="grid grid-cols-3 gap-4 text-center">
               <div className="space-y-2">
                 <TrendingUp className="h-6 w-6 mx-auto text-primary" />
