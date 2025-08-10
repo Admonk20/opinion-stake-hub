@@ -3,7 +3,7 @@
 export const Footer = () => {
   return (
     <footer className="bg-card border-t border-border mt-16">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 text-center md:text-left">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className="font-semibold text-foreground mb-4">Memecoin Battles</h3>

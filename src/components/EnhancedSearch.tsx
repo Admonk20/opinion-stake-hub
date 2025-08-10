@@ -108,7 +108,7 @@ export const EnhancedSearch = ({
           />
         </div>
         
-        <div className="flex gap-2">
+        <div className="flex flex-col sm:flex-row gap-2 items-center justify-center sm:justify-start">
           <Select value={selectedCategory} onValueChange={onCategoryChange}>
             <SelectTrigger className="w-40">
               <SelectValue placeholder="Category" />
@@ -159,7 +159,7 @@ export const EnhancedSearch = ({
 
       {/* Active Filters */}
       {activeFilters.length > 0 && (
-        <div className="flex flex-wrap gap-2 items-center">
+        <div className="flex flex-wrap gap-2 items-center justify-center md:justify-start">
           <span className="text-sm text-muted-foreground">Active filters:</span>
           {activeFilters.map((filter) => (
             <Badge key={filter} variant="secondary" className="flex items-center gap-1">
@@ -264,7 +264,7 @@ export const EnhancedSearch = ({
           {/* Quick Filter Buttons */}
           <div className="space-y-2">
             <label className="text-sm font-medium">Quick Filters</label>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
               <Button
                 variant="outline"
                 size="sm"
