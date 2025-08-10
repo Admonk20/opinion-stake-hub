@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, TrendingUp } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const HeroSection = () => {
   return (
@@ -15,9 +16,11 @@ export const HeroSection = () => {
             Put your knowledge to work and earn from accurate predictions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 items-center justify-center sm:justify-start">
-            <Button size="lg" className="group hover-scale">
-              Start Trading
-              <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+            <Button size="lg" className="group hover-scale" asChild>
+              <Link to="/auth">
+                Start Trading
+                <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />
+              </Link>
             </Button>
             <Button variant="outline" size="lg" className="group hover-scale" asChild>
               <a
