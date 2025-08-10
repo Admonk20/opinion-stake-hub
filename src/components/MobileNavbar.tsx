@@ -36,9 +36,6 @@ export const MobileNavbar = ({
         Portfolio
       </Link>
       <a href="#" className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setIsOpen(false)}>
-        How it works
-      </a>
-      <a href="#" className="text-lg font-medium transition-colors hover:text-primary" onClick={() => setIsOpen(false)}>
         About
       </a>
     </div>;
@@ -63,9 +60,6 @@ export const MobileNavbar = ({
               <Link to="/portfolio" className="text-sm font-medium transition-colors hover:text-primary">
                 Portfolio
               </Link>
-              <a href="#" className="text-sm font-medium transition-colors hover:text-primary">
-                How it works
-              </a>
               <a href="#" className="text-sm font-medium transition-colors hover:text-primary">
                 About
               </a>
