@@ -120,10 +120,14 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar user={user} />
       <main className="container mx-auto px-4 py-8 animate-fade-in">
-        <AnnouncementBar
-          presaleUrl="https://tzeecoin.io"
-        />
-        <HeroSection />
+        {!user && (
+          <>
+            <AnnouncementBar
+              presaleUrl="https://tzeecoin.io"
+            />
+            <HeroSection />
+          </>
+        )}
         
         <div className="mb-8">
           <EnhancedSearch
@@ -145,7 +149,7 @@ const Index = () => {
         />
       </main>
       
-      <Footer />
+      {!user && <Footer />}
     </div>
   );
 };
